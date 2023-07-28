@@ -1,5 +1,10 @@
 <x-filament-breezy::auth-card action="authenticate">
 
+        <div class="w-full flex justify-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/DOST_seal.svg/1200px-DOST_seal.svg.png" style="width:64px;height:64px;">
+        </div>
+
+
     <div class="w-full flex justify-center">
         <x-filament::brand />
     </div>
