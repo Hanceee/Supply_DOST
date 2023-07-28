@@ -10,6 +10,10 @@ use Filament\Pages\Page;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use Filament\Forms\Components\Card;
+use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
@@ -19,6 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Forms\Components\CheckboxList;
 use BaconQrCode\Renderer\RendererStyle\Fill;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -29,7 +34,6 @@ use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager;
-use Filament\Tables\Filters\TrashedFilter;
 
 class UserResource extends Resource
 {
@@ -42,35 +46,51 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-              Toggle::make('is_admin')
-                    ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(8)
-                    ->length(8)
-                    ->dehydrateStateUsing(static fn(null|string $state):
-                        null|string =>
-                        filled($state) ? Hash::make($state): null,
-                )->required(static fn (Page $livewire): string =>
-                   $livewire instanceof CreateUser,
-                )->dehydrated(static fn(null|string $state): bool =>
-                        filled($state),
-                    )->label(static fn(PAge $livewire): string =>
-                        ($livewire instanceof EditUser) ? 'New Password' : 'Password'
-                    ),
-                CheckboxList::make('roles')
-                    ->relationship('roles', 'name')
-                    ->columns(2)
-                    ->helperText('Only Choose One!')
-                    ->required(),
+                Card::make()
+
+    ->schema([
+        Forms\Components\TextInput::make('name')
+        ->required()
+        ->maxLength(255)
+        ->disableAutocomplete()
+        ->helperText(' Full name here, including any middle names.'),
+        Forms\Components\TextInput::make('email')
+        ->email()
+        ->required()
+        ->disableAutocomplete()
+        ->maxLength(255),
+        Forms\Components\TextInput::make('username')
+        ->required()
+        ->disableAutocomplete()
+        ->maxLength(255),
+
+  Toggle::make('is_admin')
+        ->required()
+        ->default(true)
+        ->hidden(),
+
+    Forms\Components\TextInput::make('password')
+        ->default('password')
+        ->required()
+        ->minLength(8)
+        ->helperText('8 Characters or more.')
+        ->dehydrateStateUsing(static fn(null|string $state):
+            null|string =>
+            filled($state) ? Hash::make($state): null,
+    )->required(static fn (Page $livewire): string =>
+       $livewire instanceof CreateUser,
+    )->dehydrated(static fn(null|string $state): bool =>
+            filled($state),
+        )->label(static fn(PAge $livewire): string =>
+            ($livewire instanceof EditUser) ? 'New Password' : 'Password'
+        ),
+    CheckboxList::make('roles')
+        ->relationship('roles', 'name')
+        ->columns(2)
+        ->helperText('Only Choose One!')
+        ->required(),
+    ])->columns(1)
+
             ]);
     }
 
@@ -79,6 +99,9 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('username')
+                ->sortable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                 ->sortable()
                 ->searchable(),
@@ -106,6 +129,7 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
             ]);
     }
 
@@ -115,6 +139,14 @@ class UserResource extends Resource
             RolesRelationManager::class,
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()
+        ->withoutGlobalScopes([
+            SoftDeletingScope::class,
+        ]);
+}
 
     public static function getPages(): array
     {

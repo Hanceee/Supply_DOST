@@ -68,6 +68,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
     User::create([
         'name' => 'super admin',
+        'username' => 'super_admin',
         'is_admin' => 1,
         'email' => 'super@admin.com',
         'email_verified_at' => now(),
@@ -78,6 +79,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
     User::create([
         'name' => 'admin',
+        'username' => 'admin',
         'is_admin' => 1,
         'email' => 'admin@admin.com',
         'email_verified_at' => now(),
