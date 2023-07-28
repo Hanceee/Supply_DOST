@@ -16,6 +16,7 @@ use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Actions\EditAction;
@@ -59,21 +60,17 @@ class UserResource extends Resource
         ->required()
         ->disableAutocomplete()
         ->maxLength(255),
-        Forms\Components\TextInput::make('username')
-        ->required()
-        ->disableAutocomplete()
-        ->maxLength(255),
 
-  Toggle::make('is_admin')
+
+  Hidden::make('is_admin')
         ->required()
-        ->default(true)
-        ->hidden(),
+        ->default(true),
 
     Forms\Components\TextInput::make('password')
         ->default('password')
         ->required()
         ->minLength(8)
-        ->helperText('8 Characters or more.')
+        ->helperText('Default Password is : password')
         ->dehydrateStateUsing(static fn(null|string $state):
             null|string =>
             filled($state) ? Hash::make($state): null,
@@ -87,7 +84,7 @@ class UserResource extends Resource
     CheckboxList::make('roles')
         ->relationship('roles', 'name')
         ->columns(2)
-        ->helperText('Only Choose One!')
+        ->helperText('Only Choose 1 !')
         ->required(),
     ])->columns(1)
 
@@ -99,15 +96,10 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('username')
-                ->sortable()
-                ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                 ->sortable()
                 ->searchable(),
-                TextColumn::make('is_admin')
-                     ->sortable()
-                    ->searchable(),
+
                     TextColumn::make('roles.name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('delete_at')
                 ->dateTime('d-M-Y')
@@ -125,10 +117,13 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+
             Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
                 Tables\Actions\RestoreBulkAction::make(),
             ]);
     }

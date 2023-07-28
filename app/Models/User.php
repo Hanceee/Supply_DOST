@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use Illuminate\Support\Facades\Log;
+use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
+use App\Filament\Resources\UserResource;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Jetstream\HasProfilePhoto;
 use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
-use App\Notifications\ResetPasswordNotification;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Request;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -35,7 +37,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
-        'username',
         'is_admin',
         'email',
         'password',
