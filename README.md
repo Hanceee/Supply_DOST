@@ -51,13 +51,19 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 ## command
 
-git clone https://github.com/Hanceee/laravel.git
+git clone https://github.com/Hanceee/Supply_DOST.git
 
 composer install
 
+npm install
+
 cp .env.example .env
 
-php artisan migrate 
+php artisan migrate:refresh --seed
+
+npm run dev
+
+php artisan serve
 
 ## Contributing
 
