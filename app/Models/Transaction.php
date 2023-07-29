@@ -48,6 +48,7 @@ class Transaction extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+
     // Define an accessor to calculate the average rating attribute.
     public function getRatingAttribute()
     {
@@ -59,10 +60,16 @@ class Transaction extends Model
     {
         static::creating(function ($transaction) {
             $transaction->rating = $transaction->averageRating();
+            // $transaction->updateSupplierTransactionAvgRating();
+
         });
 
         static::updating(function ($transaction) {
             $transaction->rating = $transaction->averageRating();
+            // $transaction->updateSupplierTransactionAvgRating();
+
+
+
         });
     }
 
@@ -72,4 +79,12 @@ class Transaction extends Model
         return round(($this->quality_rating + $this->completeness_rating + $this->conformity_rating) / 3);
     }
 
+    // public function updateSupplierTransactionAvgRating()
+    // {
+    //     $supplier = $this->supplier;
+    //     $totalRatings = $supplier->transaction->sum('rating');
+    //     $totalTransactions = $supplier->transaction->count();
+    //     $supplier->transaction_avg_rating = ($totalTransactions === 0) ? 0 : round($totalRatings / $totalTransactions);
+    //     $supplier->save();
+    // }
 }

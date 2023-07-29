@@ -31,6 +31,8 @@ class SupplierRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('supplier_name'),
+                Tables\Columns\TextColumn::make('transaction_avg_rating'),
+
             ])
             ->filters([
                 //

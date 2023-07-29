@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 use App\Filament\Resources\TransactionResource\RelationManagers\SupplierRelationManager;
 
 class TransactionResource extends Resource
@@ -59,10 +60,10 @@ class TransactionResource extends Resource
                 //     ->date(),
                 // Tables\Columns\TextColumn::make('article_description'),
                 // Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('supplier.supplier_name'),
-                Tables\Columns\TextColumn::make('quality_rating'),
-                Tables\Columns\TextColumn::make('completeness_rating'),
-                Tables\Columns\TextColumn::make('conformity_rating'),
+                Tables\Columns\TextColumn::make('supplier.supplier_name')->searchable(),
+                Tables\Columns\TextColumn::make('quality_rating')->searchable(),
+                Tables\Columns\TextColumn::make('completeness_rating')->searchable(),
+                Tables\Columns\TextColumn::make('conformity_rating')->searchable(),
                 TextColumn::make('rating')
 
                 // ->placeholder(function(Model $record): float  {
@@ -79,6 +80,9 @@ class TransactionResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                FilamentExportHeaderAction::make('export'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

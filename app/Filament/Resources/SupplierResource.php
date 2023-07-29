@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\SupplierResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SupplierResource\RelationManagers;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 use App\Filament\Resources\SupplierResource\RelationManagers\TransactionRelationManager;
 
 class SupplierResource extends Resource
@@ -65,10 +67,15 @@ class SupplierResource extends Resource
 
     public static function table(Table $table): Table
     {
+        // $table->headerActions([
+        //     FilamentExportHeaderAction::make('export')
+
+
+        // ]);
         return $table
             ->columns([
 
-                Tables\Columns\TextColumn::make('supplier_name'),
+                Tables\Columns\TextColumn::make('supplier_name')->searchable(),
                 // Tables\Columns\TextColumn::make('representative_name'),
                 // Tables\Columns\TextColumn::make('position_designation'),
                 // Tables\Columns\TextColumn::make('company_address'),
@@ -77,8 +84,8 @@ class SupplierResource extends Resource
                 // Tables\Columns\TextColumn::make('business_permit_number'),
                 // Tables\Columns\TextColumn::make('tin'),
                 // Tables\Columns\TextColumn::make('philgeps_registration_number'),
-                Tables\Columns\TextColumn::make('category.name'),
-                Tables\Columns\TextColumn::make('transaction_avg_rating')->avg('transaction','rating'),
+                Tables\Columns\TextColumn::make('category.name')->searchable(),
+                Tables\Columns\TextColumn::make('transaction_avg_rating')->avg('transaction','rating')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
                 // Tables\Columns\TextColumn::make('created_at')
@@ -87,14 +94,23 @@ class SupplierResource extends Resource
                 //     ->dateTime(),
             ])
             ->filters([
+
                 Tables\Filters\TrashedFilter::make(),
             ])
+            ->headerActions([
+                FilamentExportHeaderAction::make('export'),
+            ])
+
             ->actions([
+
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make(),
+
                 Tables\Actions\ForceDeleteAction::make(),
             ])
             ->bulkActions([
+                FilamentExportBulkAction::make('export'),
+
                 Tables\Actions\DeleteBulkAction::make(),
                 Tables\Actions\ForceDeleteBulkAction::make(),
                 Tables\Actions\RestoreBulkAction::make(),
@@ -124,4 +140,6 @@ class SupplierResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
+
 }

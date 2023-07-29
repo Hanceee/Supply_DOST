@@ -37,16 +37,52 @@ class Supplier extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    // protected static function boot()
+
+    // // Define an Eloquent event to update the transaction_avg_rating attribute before creating or updating the model.
+    // protected static function booted()
     // {
-    //     parent::boot();
-
-    //     static::saved(function ($supplier) {
-    //         $averageOverallRating = $supplier->transactions()
-    //             ->avg('transaction_average_rating');
-
-    //         $supplier->average_overall_rating = round($averageOverallRating, 2);
-    //         $supplier->save();
+    //     static::creating(function ($supplier) {
+    //         $supplier->transaction_avg_rating = $supplier->calculateAverageRating();
     //     });
+
+    //     static::updating(function ($supplier) {
+    //         $supplier->transaction_avg_rating = $supplier->calculateAverageRating();
+    //     });
+    // }
+
+    // // Calculate the average rating of all transactions for the supplier.
+    // protected function calculateAverageRating()
+    // {
+    //     $transactions = $this->transaction;
+
+    //     if ($transactions->isEmpty()) {
+    //         return 0;
+    //     }
+
+    //     $totalRating = 0;
+    //     foreach ($transactions as $transaction) {
+    //         $totalRating += $transaction->average;
+    //     }
+
+    //     return round($totalRating / $transactions->count());
+    // }
+
+    // protected static function booted()
+    // {
+    //     static::created(function ($supplier) {
+    //         $supplier->updateAverageRating();
+    //     });
+
+    //     static::updated(function ($supplier) {
+    //         $supplier->updateAverageRating();
+    //     });
+    // }
+
+    // // Update the supplier's average rating based on the transactions.
+    // protected function updateAverageRating()
+    // {
+    //     $avgRating = $this->transactions()->avg('rating');
+    //     $this->transaction_avg_rating = round($avgRating);
+    //     $this->save();
     // }
 }

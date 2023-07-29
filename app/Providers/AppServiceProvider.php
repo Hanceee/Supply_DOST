@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+
         FilamentBreezy::setPasswordRules(
             [
                 Password::min(8)
