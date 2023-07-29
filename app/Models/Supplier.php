@@ -28,7 +28,7 @@ class Supplier extends Model
 
 
 
-    public function transactions()
+    public function transaction()
     {
         return $this->hasMany(Transaction::class);
     }

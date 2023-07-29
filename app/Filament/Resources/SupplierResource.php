@@ -20,6 +20,7 @@ class SupplierResource extends Resource
     protected static ?string $model = Supplier::class;
     protected static ?string $navigationGroup = 'Supplier Management';
 
+
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
     public static function form(Form $form): Form
@@ -77,7 +78,7 @@ class SupplierResource extends Resource
                 // Tables\Columns\TextColumn::make('tin'),
                 // Tables\Columns\TextColumn::make('philgeps_registration_number'),
                 Tables\Columns\TextColumn::make('category.name'),
-                Tables\Columns\TextColumn::make('average_overall_rating')->avg('transactions','transaction_average_rating'),
+                Tables\Columns\TextColumn::make('transaction_avg_rating')->avg('transaction','rating'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
                 // Tables\Columns\TextColumn::make('created_at')

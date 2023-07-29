@@ -12,15 +12,15 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TransactionRelationManager extends RelationManager
 {
-    protected static string $relationship = 'transactions';
+    protected static string $relationship = 'transaction';
 
-    protected static ?string $recordTitleAttribute = 'transaction_average_rating';
+    protected static ?string $recordTitleAttribute = 'rating';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('transaction_average_rating')
+                Forms\Components\TextInput::make('rating')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -30,7 +30,7 @@ class TransactionRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('transaction_average_rating'),
+                Tables\Columns\TextColumn::make('rating'),
             ])
             ->filters([
                 //

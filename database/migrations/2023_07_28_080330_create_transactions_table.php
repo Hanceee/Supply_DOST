@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('article_description');
             $table->decimal('price', 8, 2);
             $table->foreignId('supplier_id');
-            $table->decimal('quality_rating', 3, 1);
-            $table->decimal('completeness_rating', 3, 1);
-            $table->decimal('conformity_rating', 3, 1);
-            $table->decimal('transaction_average_rating', 3, 1)->default('0.00');;
+            $table->integer('quality_rating');
+            $table->integer('completeness_rating');
+            $table->integer('conformity_rating');
+            $table->integer('rating')->default(0);
             $table->string('remarks');
             $table->timestamps();
 

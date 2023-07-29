@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('suppliers', function (Blueprint $table) {
-            $table->softDeletes()->after('average_overall_rating');
+            $table->softDeletes()->after('transaction_avg_rating');
         });
     }
 

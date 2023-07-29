@@ -8,13 +8,14 @@ use App\Models\Transaction;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
 use App\Filament\Resources\TransactionResource\RelationManagers\SupplierRelationManager;
-use Illuminate\Database\Eloquent\Model;
 
 class TransactionResource extends Resource
 {
@@ -62,10 +63,12 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('quality_rating'),
                 Tables\Columns\TextColumn::make('completeness_rating'),
                 Tables\Columns\TextColumn::make('conformity_rating'),
-                Tables\Columns\TextColumn::make('transaction_average_rating')
-                ->getStateUsing(function(Model $record)  {
-                        return ($record->quality_rating + $record->completeness_rating + $record->conformity_rating) / 3 ;
-                }),
+                TextColumn::make('rating')
+
+                // ->placeholder(function(Model $record): float  {
+                //         return ($record->quality_rating + $record->completeness_rating + $record->conformity_rating) / 3 ;
+                // })
+                ,
                 // Tables\Columns\TextColumn::make('remarks'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),

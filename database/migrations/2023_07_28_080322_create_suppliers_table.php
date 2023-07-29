@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('tin');
             $table->string('philgeps_registration_number');
             $table->foreignId('category_id');
-            $table->decimal('average_overall_rating', 3, 1)->default(0.00);
+            $table->integer('transaction_avg_rating')->default(0);
             $table->timestamps();
 
         });

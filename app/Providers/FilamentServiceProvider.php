@@ -26,6 +26,7 @@ class FilamentServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
         Filament::serving(function () {
             $user = auth()->user();
 
