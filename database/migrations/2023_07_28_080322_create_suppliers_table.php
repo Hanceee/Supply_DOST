@@ -13,8 +13,19 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->softDeletes();
+            $table->string('supplier_name');
+            $table->string('representative_name');
+            $table->string('position_designation');
+            $table->string('company_address');
+            $table->string('office_contact');
+            $table->string('email');
+            $table->string('business_permit_number');
+            $table->string('tin');
+            $table->string('philgeps_registration_number');
+            $table->unsignedBigInteger('category_id');
+            $table->decimal('average_overall_rating', 4, 2)->default(0.00);
             $table->timestamps();
+
         });
     }
 

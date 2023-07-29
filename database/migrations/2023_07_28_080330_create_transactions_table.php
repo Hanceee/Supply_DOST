@@ -13,8 +13,17 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->softDeletes();
+            $table->date('date');
+            $table->string('article_description');
+            $table->decimal('price', 8, 2);
+            $table->unsignedBigInteger('supplier_id');
+            $table->decimal('quality_rating', 3, 1);
+            $table->decimal('completeness_rating', 3, 1);
+            $table->decimal('conformity_rating', 3, 1);
+            $table->decimal('transaction_average_rating', 3, 1);
+            $table->string('remarks');
             $table->timestamps();
+
         });
     }
 

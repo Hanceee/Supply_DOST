@@ -14,6 +14,7 @@ class Supplier extends Model
 
     protected $fillable = [
         'representative_name',
+        'supplier_name',
         'position_designation',
         'company_address',
         'office_contact',
@@ -26,6 +27,6 @@ class Supplier extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(Category::class);
     }
 }
