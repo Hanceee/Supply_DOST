@@ -7,15 +7,16 @@ use Filament\Tables;
 use App\Models\Category;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
+use Tables\Columns\TextColumn;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Tables\Actions\RestoreAction;
@@ -30,6 +31,7 @@ use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Filament\Resources\CategoryResource\Pages\EditCategory;
 use App\Filament\Resources\CategoryResource\Pages\CreateCategory;
 use App\Filament\Resources\CategoryResource\Pages\ListCategories;
+use App\Filament\Resources\CategoryResource\RelationManagers\SupplierRelationManager;
 
 class CategoryResource extends Resource
 {
@@ -57,9 +59,8 @@ class CategoryResource extends Resource
 
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('supplier_count'),
-                Tables\Columns\IconColumn::make('hidden')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('supplier_count')->counts('supplier'),
+                Tables\Columns\ToggleColumn::make('hidden'),
                     Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -85,7 +86,8 @@ class CategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SupplierRelationManager::class,
+
         ];
     }
 
@@ -105,4 +107,6 @@ class CategoryResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
+
 }

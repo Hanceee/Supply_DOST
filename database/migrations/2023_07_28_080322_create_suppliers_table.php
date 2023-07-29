@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('business_permit_number');
             $table->string('tin');
             $table->string('philgeps_registration_number');
-            $table->unsignedBigInteger('category_id');
-            $table->decimal('average_overall_rating', 4, 2)->default(0.00);
+            $table->foreignId('category_id');
+            $table->decimal('average_overall_rating', 3, 1)->default(0.00);
             $table->timestamps();
 
         });

@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use App\Filament\Resources\TransactionResource\RelationManagers\SupplierRelationManager;
+use Illuminate\Database\Eloquent\Model;
 
 class TransactionResource extends Resource
 {
@@ -32,15 +34,15 @@ class TransactionResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
                     ->required(),
-                Forms\Components\TextInput::make('supplier_name')
+                Forms\Components\Select::make('supplier_id')
+                    ->relationship('supplier', 'supplier_name')
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('quality_rating')
                     ->required(),
                 Forms\Components\TextInput::make('completeness_rating')
                     ->required(),
                 Forms\Components\TextInput::make('conformity_rating')
-                    ->required(),
-                Forms\Components\TextInput::make('transaction_average_rating')
                     ->required(),
                 Forms\Components\TextInput::make('remarks')
                     ->required()
@@ -52,22 +54,25 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('date')
-                    ->date(),
-                Tables\Columns\TextColumn::make('article_description'),
-                Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('supplier_name'),
+                // Tables\Columns\TextColumn::make('date')
+                //     ->date(),
+                // Tables\Columns\TextColumn::make('article_description'),
+                // Tables\Columns\TextColumn::make('price'),
+                Tables\Columns\TextColumn::make('supplier.supplier_name'),
                 Tables\Columns\TextColumn::make('quality_rating'),
                 Tables\Columns\TextColumn::make('completeness_rating'),
                 Tables\Columns\TextColumn::make('conformity_rating'),
-                Tables\Columns\TextColumn::make('transaction_average_rating'),
-                Tables\Columns\TextColumn::make('remarks'),
+                Tables\Columns\TextColumn::make('transaction_average_rating')
+                ->getStateUsing(function(Model $record)  {
+                        return ($record->quality_rating + $record->completeness_rating + $record->conformity_rating) / 3 ;
+                }),
+                // Tables\Columns\TextColumn::make('remarks'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -87,7 +92,7 @@ class TransactionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SupplierRelationManager::class
         ];
     }
 
@@ -107,4 +112,6 @@ class TransactionResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
+
 }

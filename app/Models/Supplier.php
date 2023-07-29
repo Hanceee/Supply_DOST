@@ -25,8 +25,28 @@ class Supplier extends Model
         'category_id',
     ];
 
+
+
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::saved(function ($supplier) {
+    //         $averageOverallRating = $supplier->transactions()
+    //             ->avg('transaction_average_rating');
+
+    //         $supplier->average_overall_rating = round($averageOverallRating, 2);
+    //         $supplier->save();
+    //     });
+    // }
 }

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\SupplierResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SupplierResource\RelationManagers;
+use App\Filament\Resources\SupplierResource\RelationManagers\TransactionRelationManager;
 
 class SupplierResource extends Resource
 {
@@ -53,11 +54,11 @@ class SupplierResource extends Resource
                 Forms\Components\TextInput::make('philgeps_registration_number')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('category_name')
+                Forms\Components\Select::make('category_id')
+                    ->relationship('category', 'name', fn (Builder $query) => $query->where('hidden', 0))
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('average_overall_rating')
-                    ->required(),
+                    ->preload()
+                    ,
             ]);
     }
 
@@ -65,23 +66,24 @@ class SupplierResource extends Resource
     {
         return $table
             ->columns([
+
+                Tables\Columns\TextColumn::make('supplier_name'),
+                // Tables\Columns\TextColumn::make('representative_name'),
+                // Tables\Columns\TextColumn::make('position_designation'),
+                // Tables\Columns\TextColumn::make('company_address'),
+                // Tables\Columns\TextColumn::make('office_contact'),
+                // Tables\Columns\TextColumn::make('email'),
+                // Tables\Columns\TextColumn::make('business_permit_number'),
+                // Tables\Columns\TextColumn::make('tin'),
+                // Tables\Columns\TextColumn::make('philgeps_registration_number'),
+                Tables\Columns\TextColumn::make('category.name'),
+                Tables\Columns\TextColumn::make('average_overall_rating')->avg('transactions','transaction_average_rating'),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
-                Tables\Columns\TextColumn::make('supplier_name'),
-                Tables\Columns\TextColumn::make('representative_name'),
-                Tables\Columns\TextColumn::make('position_designation'),
-                Tables\Columns\TextColumn::make('company_address'),
-                Tables\Columns\TextColumn::make('office_contact'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('business_permit_number'),
-                Tables\Columns\TextColumn::make('tin'),
-                Tables\Columns\TextColumn::make('philgeps_registration_number'),
-                Tables\Columns\TextColumn::make('category_name'),
-                Tables\Columns\TextColumn::make('average_overall_rating'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -101,7 +103,7 @@ class SupplierResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TransactionRelationManager::class,
         ];
     }
 
