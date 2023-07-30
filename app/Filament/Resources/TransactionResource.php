@@ -47,9 +47,14 @@ class TransactionResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('conformity_rating')
                     ->required(),
-                Forms\Components\TextInput::make('remarks')
+                Forms\Components\Select::make('remarks')
                     ->required()
-                    ->maxLength(255),
+                    ->options([
+                        'Closed' => 'Closed',
+                        'Cancelled' => 'Cancelled',
+                        'Processing' => 'Processing',
+                    ])
+                    ->default('Processing'),
             ]);
     }
 
@@ -57,9 +62,9 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('date')
-                //     ->date(),
-                // Tables\Columns\TextColumn::make('article_description'),
+                Tables\Columns\TextColumn::make('date')
+                    ->date(),
+                Tables\Columns\TextColumn::make('article_description'),
                 // Tables\Columns\TextColumn::make('price'),
                 Tables\Columns\TextColumn::make('supplier.supplier_name')->searchable(),
                 Tables\Columns\TextColumn::make('quality_rating')->searchable(),
@@ -71,9 +76,22 @@ class TransactionResource extends Resource
                 //         return ($record->quality_rating + $record->completeness_rating + $record->conformity_rating) / 3 ;
                 // })
                 ,
-                // Tables\Columns\TextColumn::make('remarks'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
+                Tables\Columns\BadgeColumn::make('remarks')
+                ->colors([
+                    'primary',
+                    'secondary' => 'Processing',
+                    'success' => 'Closed',
+                    'danger' => 'Cancelled',
+                ])
+
+                ->icons([
+                    'clarity-success-standard-solid' => 'Closed',
+                    'clarity-times-circle-solid' => 'Cancelled',
+                    'clarity-contract-solid' => 'Processing',
+                ])
+                ,
+                // Tables\Columns\TextColumn::make('deleted_at')
+                //     ->dateTime(),
                 // Tables\Columns\TextColumn::make('created_at')
                 //     ->dateTime(),
                 // Tables\Columns\TextColumn::make('updated_at')

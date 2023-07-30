@@ -3,14 +3,14 @@
 namespace App\Providers;
 
 use Filament\Facades\Filament;
+use Illuminate\Foundation\Vite;
 use Filament\Navigation\UserMenuItem;
-use Spatie\Permission\Contracts\Role;
 
+use Spatie\Permission\Contracts\Role;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\RoleResource;
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\PermissionResource;
-use CmsMulti\FilamentClearCache\Facades\FilamentClearCache;
 
 class FilamentServiceProvider extends ServiceProvider
 {
@@ -28,6 +28,7 @@ class FilamentServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Filament::registerViteTheme('resources/css/filament.css');
 
         Filament::serving(function () {
             $user = auth()->user();

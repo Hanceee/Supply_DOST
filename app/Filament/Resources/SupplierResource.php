@@ -76,7 +76,7 @@ class SupplierResource extends Resource
             ->columns([
 
                 Tables\Columns\TextColumn::make('supplier_name')->searchable(),
-                // Tables\Columns\TextColumn::make('representative_name'),
+                Tables\Columns\TextColumn::make('representative_name'),
                 // Tables\Columns\TextColumn::make('position_designation'),
                 // Tables\Columns\TextColumn::make('company_address'),
                 // Tables\Columns\TextColumn::make('office_contact'),
@@ -85,6 +85,7 @@ class SupplierResource extends Resource
                 // Tables\Columns\TextColumn::make('tin'),
                 // Tables\Columns\TextColumn::make('philgeps_registration_number'),
                 Tables\Columns\TextColumn::make('category.name')->searchable(),
+                Tables\Columns\TextColumn::make('transaction_count')->counts('transaction')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('transaction_avg_rating')->avg('transaction','rating')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
@@ -98,7 +99,7 @@ class SupplierResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->headerActions([
-                FilamentExportHeaderAction::make('export'),
+                FilamentExportHeaderAction::make('Export All'),
             ])
 
             ->actions([

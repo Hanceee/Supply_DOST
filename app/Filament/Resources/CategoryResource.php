@@ -63,17 +63,17 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('supplier_count')->counts('supplier'),
                 ToggleIconColumn::make('hidden')
                 ->alignCenter()
-                ->onColor('primary')
-                ->offColor('primary')
+                ->onColor('secondary')
+                ->offColor('warning')
                 ->onIcon('bi-eye-slash-fill')
                 ->offIcon('bi-eye-fill')
                 ,
-                    Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                //     Tables\Columns\TextColumn::make('deleted_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

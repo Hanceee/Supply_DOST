@@ -70,17 +70,18 @@ class UserResource extends Resource
         ->default('password')
         ->required()
         ->minLength(8)
-        ->helperText('Default Password is : password')
-        ->dehydrateStateUsing(static fn(null|string $state):
-            null|string =>
-            filled($state) ? Hash::make($state): null,
-    )->required(static fn (Page $livewire): string =>
-       $livewire instanceof CreateUser,
-    )->dehydrated(static fn(null|string $state): bool =>
-            filled($state),
-        )->label(static fn(PAge $livewire): string =>
-            ($livewire instanceof EditUser) ? 'New Password' : 'Password'
-        ),
+        ->hiddenOn('edit')
+        ->helperText('Default Password is : password'),
+    //     ->dehydrateStateUsing(static fn(null|string $state):
+    //         null|string =>
+    //         filled($state) ? Hash::make($state): null,
+    // )->required(static fn (Page $livewire): string =>
+    //    $livewire instanceof CreateUser,
+    // )->dehydrated(static fn(null|string $state): bool =>
+    //         filled($state),
+    //     )->label(static fn(PAge $livewire): string =>
+    //         ($livewire instanceof EditUser) ? 'New Password' : 'Password'
+    //     ),
     CheckboxList::make('roles')
         ->relationship('roles', 'name')
         ->columns(2)
@@ -101,14 +102,14 @@ class UserResource extends Resource
                 ->searchable(),
 
                     TextColumn::make('roles.name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('delete_at')
-                ->dateTime('d-M-Y')
-                ->sortable()
-                ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                ->dateTime('d-M-Y')
-                ->sortable()
-                ->searchable(),
+                // Tables\Columns\TextColumn::make('delete_at')
+                // ->dateTime('d-M-Y')
+                // ->sortable()
+                // ->searchable(),
+                // Tables\Columns\TextColumn::make('created_at')
+                // ->dateTime('d-M-Y')
+                // ->sortable()
+                // ->searchable(),
 
             ])
             ->filters([

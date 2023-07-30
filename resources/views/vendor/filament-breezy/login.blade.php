@@ -6,7 +6,7 @@
 
 
     <div class="w-full flex justify-center">
-        <x-filament::brand />
+        <img src="https://scontent-mnl1-1.xx.fbcdn.net/v/t39.30808-6/364706014_259341823475862_5277198987590220895_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=730e14&_nc_ohc=fEcfroZ6o00AX9h0EFu&_nc_ht=scontent-mnl1-1.xx&oh=00_AfDxQUan9X6xbqhqhQmf6dBXse58zLIKQ4evCjDDGOOeWQ&oe=64CC0109" >
     </div>
 
     <div>
