@@ -10,7 +10,9 @@ use Spatie\Permission\Contracts\Role;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\RoleResource;
 use App\Filament\Resources\UserResource;
+use FilamentQuickCreate\Facades\QuickCreate;
 use App\Filament\Resources\PermissionResource;
+use Z3d0X\FilamentLogger\Resources\ActivityResource;
 
 class FilamentServiceProvider extends ServiceProvider
 {
@@ -29,8 +31,13 @@ class FilamentServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Filament::registerViteTheme('resources/css/filament.css');
+        Filament::serving(function() {
+            QuickCreate::excludes([
+                \App\Filament\Resources\RoleResource::class,
+                ActivityResource::class,
 
-        Filament::serving(function () {
+            ]);
+        });        Filament::serving(function () {
             $user = auth()->user();
 
             if ($user && $user->is_admin === 1 && $user->hasAnyRole(['super-admin'])) {

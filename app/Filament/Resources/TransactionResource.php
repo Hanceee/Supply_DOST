@@ -8,15 +8,21 @@ use App\Models\Transaction;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Wiebenieuwenhuis\FilamentCharCounter\TextInput;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
+use Suleymanozev\FilamentRadioButtonField\Forms\Components\RadioButton;
 use App\Filament\Resources\TransactionResource\RelationManagers\SupplierRelationManager;
 
 class TransactionResource extends Resource
@@ -32,9 +38,9 @@ class TransactionResource extends Resource
             ->schema([
                 Forms\Components\DatePicker::make('date')
                     ->required(),
-                Forms\Components\TextInput::make('article_description')
+                TextInput::make('article_description')
                     ->required()
-                    ->maxLength(255),
+                    ->characterLimit(255),
                 Forms\Components\TextInput::make('price')
                     ->required(),
                 Forms\Components\Select::make('supplier_id')
@@ -47,12 +53,19 @@ class TransactionResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('conformity_rating')
                     ->required(),
-                Forms\Components\Select::make('remarks')
+                RadioButton::make('remarks')
                     ->required()
                     ->options([
-                        'Closed' => 'Closed',
-                        'Cancelled' => 'Cancelled',
                         'Processing' => 'Processing',
+                        'Cancelled' => 'Cancelled',
+                        'Closed' => 'Closed',
+
+
+                    ])
+                    ->descriptions([
+                        'Closed' => 'Transaction is completed successfully.',
+                        'Cancelled' => 'Transaction revoked.',
+                        'Processing' => 'Transaction on process.',
                     ])
                     ->default('Processing'),
             ]);
