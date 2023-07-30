@@ -45,6 +45,8 @@
         "spatie/laravel-permission": "^5.10",
         "suleymanozev/filament-radio-button-field": "^2.0",
         "wiebenieuwenhuis/filament-char-counter": "^1.1",
+        "yepsua/filament-range-field": "^0.3.2",
+        "yepsua/filament-rating-field": "^0.2.0",
         "z3d0x/filament-logger": "^0.5.6"
     },
     "require-dev": {

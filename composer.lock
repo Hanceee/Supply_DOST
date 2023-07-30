@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "317b287c69d8e189a57f64c5dccab64e",
+    "content-hash": "871f03fba8ea556a788bf50d480ceb9a",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9596,6 +9596,146 @@
                 "source": "https://github.com/sweebee/filament-char-counter/tree/1.1.5"
             },
             "time": "2023-06-07T11:39:46+00:00"
+        },
+        {
+            "name": "yepsua/filament-range-field",
+            "version": "v0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yepsua/filament-range-field.git",
+                "reference": "65e249744f98e32b9864104549314068b3cdea48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yepsua/filament-range-field/zipball/65e249744f98e32b9864104549314068b3cdea48",
+                "reference": "65e249744f98e32b9864104549314068b3cdea48",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^2.0",
+                "illuminate/contracts": "^8.0|^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^6.0",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^7.0",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yepsua\\Filament\\FilamentRangeFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yepsua\\Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Omar Yepez",
+                    "email": "oyepez003@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The missing range/slider field for the Filament forms.",
+            "homepage": "https://github.com/yepsua/filament-range-field",
+            "keywords": [
+                "filament-range-field",
+                "laravel",
+                "yepsua"
+            ],
+            "support": {
+                "issues": "https://github.com/yepsua/filament-range-field/issues",
+                "source": "https://github.com/yepsua/filament-range-field/tree/v0.3.2"
+            },
+            "time": "2023-03-12T17:29:07+00:00"
+        },
+        {
+            "name": "yepsua/filament-rating-field",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yepsua/filament-rating-field.git",
+                "reference": "74a943bcfcb40336b88a0665daff1a39112aeef0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yepsua/filament-rating-field/zipball/74a943bcfcb40336b88a0665daff1a39112aeef0",
+                "reference": "74a943bcfcb40336b88a0665daff1a39112aeef0",
+                "shasum": ""
+            },
+            "require": {
+                "filament/forms": "^2.0",
+                "filament/tables": "^2.0",
+                "illuminate/contracts": "^8.0|^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8",
+                "nunomaduro/collision": "^6.0",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^7.0",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yepsua\\Filament\\FilamentRatingFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yepsua\\Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Omar Yepez",
+                    "email": "oyepez003@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Ranting field for the Filament forms",
+            "homepage": "https://github.com/yepsua/filament-rating-field",
+            "keywords": [
+                "filament-rating-field",
+                "laravel",
+                "yepsua"
+            ],
+            "support": {
+                "issues": "https://github.com/yepsua/filament-rating-field/issues",
+                "source": "https://github.com/yepsua/filament-rating-field/tree/v0.2.0"
+            },
+            "time": "2023-07-19T12:53:04+00:00"
         },
         {
             "name": "z3d0x/filament-logger",

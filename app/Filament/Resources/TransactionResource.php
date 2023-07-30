@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Wiebenieuwenhuis\FilamentCharCounter\TextInput;
+use Yepsua\Filament\Tables\Components\RatingColumn;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
@@ -63,9 +64,9 @@ class TransactionResource extends Resource
 
                     ])
                     ->descriptions([
-                        'Closed' => 'Transaction is completed successfully.',
-                        'Cancelled' => 'Transaction revoked.',
-                        'Processing' => 'Transaction on process.',
+                        'Closed' => 'Transaction is completed successfully. ✔️ ',
+                        'Cancelled' => 'Transaction revoked. ❌',
+                        'Processing' => 'Transaction on process. ✍🏻',
                     ])
                     ->default('Processing'),
             ]);
@@ -80,9 +81,9 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('article_description'),
                 // Tables\Columns\TextColumn::make('price'),
                 Tables\Columns\TextColumn::make('supplier.supplier_name')->searchable(),
-                Tables\Columns\TextColumn::make('quality_rating')->searchable(),
-                Tables\Columns\TextColumn::make('completeness_rating')->searchable(),
-                Tables\Columns\TextColumn::make('conformity_rating')->searchable(),
+                RatingColumn::make('quality_rating')->color('orange'),
+                RatingColumn::make('completeness_rating')->color('green'),
+                RatingColumn::make('conformity_rating')->color('cyan'),
                 TextColumn::make('rating')
 
                 // ->placeholder(function(Model $record): float  {
@@ -114,7 +115,7 @@ class TransactionResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->headerActions([
-                FilamentExportHeaderAction::make('export'),
+                FilamentExportHeaderAction::make('Export All'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
