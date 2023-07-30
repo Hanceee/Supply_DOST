@@ -7,9 +7,14 @@
     "require": {
         "php": "^8.1",
         "alperenersoy/filament-export": "^0.3.7",
+        "archilex/filament-toggle-icon-column": "^1.0",
+        "awcodes/filament-versions": "^1.1",
         "bacon/bacon-qr-code": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
+        "blade-ui-kit/blade-heroicons": "^1.4",
+        "cms-multi/filament-clear-cache": "^1.0",
         "dasprid/enum": "^1.0",
+        "davidhsianturi/blade-bootstrap-icons": "^1.4",
         "devaslanphp/filament-avatar": "^1.0",
         "doctrine/collections": "^2.1",
         "filament/filament": "^2.17",
@@ -27,9 +32,12 @@
         "livewire/livewire": "^2.11",
         "paragonie/constant_time_encoding": "^2.6",
         "phpmailer/phpmailer": "^6.8",
+        "phpsa/filament-dadjokes": "^1.1",
         "pragmarx/google2fa": "^8.0",
+        "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-package-tools": "^1.15",
-        "spatie/laravel-permission": "^5.10"
+        "spatie/laravel-permission": "^5.10",
+        "z3d0x/filament-logger": "^0.5.6"
     },
     "require-dev": {
         "doctrine/dbal": "^3.6",

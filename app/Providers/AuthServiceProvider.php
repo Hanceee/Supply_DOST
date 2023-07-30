@@ -6,7 +6,8 @@ namespace App\Providers;
 
 use App\Policies\PermissionPolicy;
 use App\Policies\RolePolicy;
-
+use App\Policies\ActivityPolicy;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -22,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        Activity::class => ActivityPolicy::class,
         Permission::class => PermissionPolicy::class,
         Role::class => RolePolicy::class
     ];

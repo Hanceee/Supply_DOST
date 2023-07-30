@@ -10,9 +10,11 @@ use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\RoleResource;
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\PermissionResource;
+use CmsMulti\FilamentClearCache\Facades\FilamentClearCache;
 
 class FilamentServiceProvider extends ServiceProvider
 {
+
     /**
      * Register services.
      */

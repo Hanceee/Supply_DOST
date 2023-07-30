@@ -27,6 +27,7 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use App\Filament\Resources\CategoryResource\Pages;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Archilex\ToggleIconColumn\Columns\ToggleIconColumn;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Filament\Resources\CategoryResource\Pages\EditCategory;
 use App\Filament\Resources\CategoryResource\Pages\CreateCategory;
@@ -60,7 +61,13 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('supplier_count')->counts('supplier'),
-                Tables\Columns\ToggleColumn::make('hidden'),
+                ToggleIconColumn::make('hidden')
+                ->alignCenter()
+                ->onColor('primary')
+                ->offColor('primary')
+                ->onIcon('bi-eye-slash-fill')
+                ->offIcon('bi-eye-fill')
+                ,
                     Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('created_at')

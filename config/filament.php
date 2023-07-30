@@ -77,6 +77,14 @@ return [
 
     'brand' => env('APP_NAME'),
 
+
+
+    'services' => [
+        'dad-jokes' => true,
+        'chuck-jokes' => true,
+    ],
+    'cache' => '5', //seconds
+
     /*
     |--------------------------------------------------------------------------
     | Auth
@@ -143,8 +151,10 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-          //  Widgets\AccountWidget::class,
-           // Widgets\FilamentInfoWidget::class,
+           Widgets\AccountWidget::class,
+           Widgets\FilamentInfoWidget::class,
+           \FilamentVersions\FilamentVersionsWidget::class,
+
         ],
     ],
 
