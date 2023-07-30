@@ -27,6 +27,7 @@
         "filament/tables": "^2.17",
         "guzzlehttp/guzzle": "^7.2",
         "illuminate/contracts": "*",
+        "illuminate/support": "*",
         "jeffgreco13/filament-breezy": "^1.5",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^3.2",
