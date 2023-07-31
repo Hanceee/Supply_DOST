@@ -3,12 +3,13 @@
 namespace App\Filament\Resources\SupplierResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 class TransactionRelationManager extends RelationManager
 {
@@ -36,14 +37,13 @@ class TransactionRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                FilamentExportHeaderAction::make('Export All'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export'),
             ]);
     }
 }

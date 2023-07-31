@@ -79,17 +79,12 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('date')
                     ->date(),
                 Tables\Columns\TextColumn::make('article_description'),
-                // Tables\Columns\TextColumn::make('price'),
+                Tables\Columns\TextColumn::make('price'),
                 Tables\Columns\TextColumn::make('supplier.supplier_name')->searchable(),
                 RatingColumn::make('quality_rating')->color('orange'),
                 RatingColumn::make('completeness_rating')->color('green'),
                 RatingColumn::make('conformity_rating')->color('cyan'),
-                TextColumn::make('rating')
-
-                // ->placeholder(function(Model $record): float  {
-                //         return ($record->quality_rating + $record->completeness_rating + $record->conformity_rating) / 3 ;
-                // })
-                ,
+                TextColumn::make('rating') ,
                 Tables\Columns\BadgeColumn::make('remarks')
                 ->colors([
                     'primary',
@@ -104,12 +99,12 @@ class TransactionResource extends Resource
                     'clarity-contract-solid' => 'Processing',
                 ])
                 ,
-                // Tables\Columns\TextColumn::make('deleted_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true)->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true)->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true)->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -118,9 +113,12 @@ class TransactionResource extends Resource
                 FilamentExportHeaderAction::make('Export All'),
             ])
             ->actions([
+                Tables\Actions\ActionGroup::make([
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
+
+                Tables\Actions\ForceDeleteAction::make(),    ]),
             ])
             ->bulkActions([
                 FilamentExportBulkAction::make('export'),
@@ -142,6 +140,7 @@ class TransactionResource extends Resource
         return [
             'index' => Pages\ListTransactions::route('/'),
             'create' => Pages\CreateTransaction::route('/create'),
+            'view' => Pages\ViewTransaction::route('/{record}'),
             'edit' => Pages\EditTransaction::route('/{record}/edit'),
         ];
     }

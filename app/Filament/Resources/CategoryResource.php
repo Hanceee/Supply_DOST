@@ -10,18 +10,24 @@ use Filament\Resources\Table;
 use Tables\Columns\TextColumn;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Card;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Repeater;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Actions\DeleteBulkAction;
+
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use App\Filament\Resources\CategoryResource\Pages;
@@ -44,12 +50,23 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
+
+                ->schema([
+
+                    Card::make()
+                    ->schema([
+                         \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('name')
+        ->label('Category Name')
+        ->required()
+        ->hint('Ex. Automotive, Electronics, Grocery, etc.')
+        ->placeholder('Category')
+        ->maxLength(20)
+                    ])    ->inlineLabel()
 
 
-                TextInput::make('name')
-                ->label('Category')
-                ->required(),
+
+
+
 
             ]);
     }
@@ -59,29 +76,46 @@ class CategoryResource extends Resource
         return $table
 
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('supplier_count')->counts('supplier'),
+                BadgeColumn::make('name')->label('Category Name')->searchable()
+                ->icons([
+                    'heroicon-o-folder',
+                ])
+                ->colors([
+                    'success',
+                ])
+                ,
+                Tables\Columns\TextColumn::make('supplier_count')->counts('supplier')->sortable(),
                 ToggleIconColumn::make('hidden')
+                ->label('Toggle Visibility')
                 ->alignCenter()
                 ->onColor('secondary')
                 ->offColor('warning')
                 ->onIcon('bi-eye-slash-fill')
                 ->offIcon('bi-eye-fill')
                 ,
-                //     Tables\Columns\TextColumn::make('deleted_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime(),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime(),
+                    Tables\Columns\TextColumn::make('deleted_at')->sortable()
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('created_at')->sortable()
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')->sortable()
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('Visibility')
+                ->options([
+                    '0' => 'Shown',
+                    '1' => 'Hidden',
+                ])->attribute('hidden')
             ])
             ->actions([
+                Tables\Actions\ActionGroup::make([
+
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),]),
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -103,6 +137,7 @@ class CategoryResource extends Resource
         return [
             'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
+            'view' => Pages\ViewCategory::route('/{record}'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
