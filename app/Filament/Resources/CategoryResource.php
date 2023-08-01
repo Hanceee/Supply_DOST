@@ -20,14 +20,17 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\Layout\Panel;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
+
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Actions\DeleteBulkAction;
-
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use App\Filament\Resources\CategoryResource\Pages;
@@ -76,7 +79,8 @@ class CategoryResource extends Resource
         return $table
 
             ->columns([
-                BadgeColumn::make('name')->label('Category Name')->searchable()
+                Split::make([
+                    BadgeColumn::make('name')->label('Category Name')->searchable()
                 ->icons([
                     'heroicon-o-folder',
                 ])
@@ -84,7 +88,7 @@ class CategoryResource extends Resource
                     'success',
                 ])
                 ,
-                Tables\Columns\TextColumn::make('supplier_count')->counts('supplier')->sortable(),
+                Tables\Columns\TextColumn::make('supplier_count')->counts('supplier')->sortable()->icon('heroicon-o-truck'),
                 ToggleIconColumn::make('hidden')
                 ->label('Toggle Visibility')
                 ->alignCenter()
@@ -93,14 +97,27 @@ class CategoryResource extends Resource
                 ->onIcon('bi-eye-slash-fill')
                 ->offIcon('bi-eye-fill')
                 ,
-                    Tables\Columns\TextColumn::make('deleted_at')->sortable()
-                    ->dateTime()->toggleable(isToggledHiddenByDefault: true),
+                ]),
+                Panel::make([
+                    Stack::make([
                 Tables\Columns\TextColumn::make('created_at')->sortable()
-                    ->dateTime()->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Created at {$state}")),
                 Tables\Columns\TextColumn::make('updated_at')->sortable()
-                    ->dateTime()->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Updated at {$state}")),
+                    ]),
+                ])->collapsible(),
+
+
+
+
+
             ])
             ->filters([
+                Filter::make('created_at')
+    ->form([
+        Forms\Components\DatePicker::make('created_from'),
+        Forms\Components\DatePicker::make('created_until')->default(now()),
+    ]),
                 Tables\Filters\TrashedFilter::make(),
                 SelectFilter::make('Visibility')
                 ->options([

@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use Filament\Forms\Components\Card;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Hash;
@@ -98,27 +99,27 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('email')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
+                    TextColumn::make('roles.name')->sortable(),
 
-                    TextColumn::make('roles.name')->sortable()->searchable(),
-                // Tables\Columns\TextColumn::make('delete_at')
-                // ->dateTime('d-M-Y')
-                // ->sortable()
-                // ->searchable(),
-                // Tables\Columns\TextColumn::make('created_at')
-                // ->dateTime('d-M-Y')
-                // ->sortable()
-                // ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                ->dateTime('d-M-Y')
+                ->sortable()
+                ,
 
             ])
             ->filters([
+                Filter::make('created_at')
+    ->form([
+        Forms\Components\DatePicker::make('created_from'),
+        Forms\Components\DatePicker::make('created_until')->default(now()),
+    ]),
                 TrashedFilter::make()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make(),
-                // Tables\Actions\ViewAction::make(),
+
 
                 Tables\Actions\ForceDeleteAction::make(),
 

@@ -3,7 +3,7 @@
 return [
     'feeds' => [
         'Latest Philippine Star Headlines 📰' => [
-            'url' => 'https://www.philstar.com/rss/headlines',
+            'url' => 'https://www.manilatimes.net/news/feed/',
             'limit' => 8
         ],
         'Latest Senate of the Philippines News 🏛️' => [

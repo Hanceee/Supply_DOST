@@ -16,6 +16,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\TrashedFilter;
+use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Wiebenieuwenhuis\FilamentCharCounter\TextInput;
 use Yepsua\Filament\Tables\Components\RatingColumn;
@@ -38,23 +39,52 @@ class TransactionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('date')
-                    ->required(),
-                TextInput::make('article_description')
+                    ->format('m/d/Y')
                     ->required()
-                    ->characterLimit(255),
+                    ->label('Transaction Date')
+                    ->placeholder('Transaction Date'),
+                    Textarea::make('article_description')
+                    ->placeholder('Article/Description')
+                    ->required()
+                    ->disableAutocomplete()
+                    ->label('Article/Description')
+                    ->characterLimit(200),
                 Forms\Components\TextInput::make('price')
+                    ->placeholder('Grand Total Cost')
+                    ->disableAutocomplete()
+                    ->label('Grand Total Cost')
                     ->required(),
                 Forms\Components\Select::make('supplier_id')
                     ->relationship('supplier', 'supplier_name')
                     ->preload()
+                    ->label('Supplier')
                     ->required(),
                 Forms\Components\TextInput::make('quality_rating')
-                    ->required(),
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->disableAutocomplete()
+                    ->maxValue(5)
+                    ->label('Quality Rating')
+                    ->placeholder('Quality Rating'),
                 Forms\Components\TextInput::make('completeness_rating')
-                    ->required(),
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->disableAutocomplete()
+                    ->maxValue(5)
+                    ->label('Completeness Rating')
+                    ->placeholder('Completeness Rating'),
                 Forms\Components\TextInput::make('conformity_rating')
-                    ->required(),
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(5)
+                    ->disableAutocomplete()
+                    ->label('Conformity Ratings')
+                    ->placeholder('Conformity Ratings'),
                 RadioButton::make('remarks')
+                    ->label('Remarks')
                     ->required()
                     ->options([
                         'Processing' => 'Processing',
@@ -64,9 +94,9 @@ class TransactionResource extends Resource
 
                     ])
                     ->descriptions([
-                        'Closed' => 'Transaction is completed successfully. ✔️ ',
-                        'Cancelled' => 'Transaction revoked. ❌',
-                        'Processing' => 'Transaction on process. ✍🏻',
+                        'Closed' => 'Transaction is completed successfully.',
+                        'Cancelled' => 'Transaction revoked.',
+                        'Processing' => 'Transaction on process.',
                     ])
                     ->default('Processing'),
             ]);
