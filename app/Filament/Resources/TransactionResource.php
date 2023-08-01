@@ -8,7 +8,12 @@ use App\Models\Transaction;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Columns\BadgeColumn;
@@ -16,6 +21,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Forms\Components\TextInput\Mask;
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Wiebenieuwenhuis\FilamentCharCounter\TextInput;
@@ -38,8 +44,17 @@ class TransactionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('date')
-                    ->format('m/d/Y')
+
+
+                Grid::make(2)
+    ->schema([
+        Card::make()
+    ->schema([
+        Wizard::make([
+            Wizard\Step::make('Order')
+                ->icon('heroicon-o-shopping-bag')
+                ->schema([
+                    Forms\Components\DatePicker::make('date')
                     ->required()
                     ->label('Transaction Date')
                     ->placeholder('Transaction Date'),
@@ -50,40 +65,54 @@ class TransactionResource extends Resource
                     ->label('Article/Description')
                     ->characterLimit(200),
                 Forms\Components\TextInput::make('price')
+                    ->mask(fn (Mask $mask) => $mask->money(prefix: '₱', thousandsSeparator: ',', decimalPlaces: 2))
                     ->placeholder('Grand Total Cost')
                     ->disableAutocomplete()
-                    ->label('Grand Total Cost')
+                    ->numeric()
                     ->required(),
                 Forms\Components\Select::make('supplier_id')
                     ->relationship('supplier', 'supplier_name')
                     ->preload()
                     ->label('Supplier')
                     ->required(),
-                Forms\Components\TextInput::make('quality_rating')
+                ]),
+            Wizard\Step::make('Billing')
+                ->icon('heroicon-o-shopping-bag')
+                ->schema([
+                    Forms\Components\TextInput::make('quality_rating')
                     ->required()
                     ->numeric()
                     ->minValue(0)
                     ->disableAutocomplete()
                     ->maxValue(5)
                     ->label('Quality Rating')
-                    ->placeholder('Quality Rating'),
-                Forms\Components\TextInput::make('completeness_rating')
+                    ->placeholder('Quality Rating')
+                    ,
+                    Forms\Components\TextInput::make('completeness_rating')
                     ->required()
                     ->numeric()
                     ->minValue(0)
                     ->disableAutocomplete()
                     ->maxValue(5)
                     ->label('Completeness Rating')
-                    ->placeholder('Completeness Rating'),
-                Forms\Components\TextInput::make('conformity_rating')
+                    ->placeholder('Completeness Rating')
+                   ,
+                   Forms\Components\TextInput::make('conformity_rating')
                     ->required()
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(5)
                     ->disableAutocomplete()
                     ->label('Conformity Ratings')
-                    ->placeholder('Conformity Ratings'),
-                RadioButton::make('remarks')
+                    ->placeholder('Conformity Ratings')
+                    ,
+
+                ]),
+        ])
+    ]),
+    Card::make()
+    ->schema([
+        RadioButton::make('remarks')
                     ->label('Remarks')
                     ->required()
                     ->options([
@@ -99,6 +128,11 @@ class TransactionResource extends Resource
                         'Processing' => 'Transaction on process.',
                     ])
                     ->default('Processing'),
+    ])
+    ]),
+
+
+
             ]);
     }
 

@@ -51,34 +51,40 @@ class SupplierResource extends Resource
 
         \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('supplier_name')
         ->label('Supplier Name')
+        ->disableAutocomplete()
         ->autofocus()
         ->required()
         ->placeholder('Supplier Name')
         ->maxLength(50),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('representative_name')
         ->label('Representative Name')
+        ->disableAutocomplete()
         ->required()
         ->hint('Full name, including middle initials.')
         ->placeholder('Representative Name')
         ->maxLength(100),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('position_designation')
         ->label('Position/Designation')
+        ->disableAutocomplete()
         ->required()
         ->hint('Ex. Manager, Assistant, Owner, etc.')
         ->placeholder('Position/Designation')
         ->maxLength(50),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('company_address')
         ->label('Company/Address')
+        ->disableAutocomplete()
         ->required()
         ->placeholder('Company/Address')
         ->maxLength(100),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('office_contact')
         ->label('Office Contact No./Fax/Mobile')
+        ->disableAutocomplete()
         ->required()
         ->placeholder('Office Contact No./Fax/Mobile')
         ->maxLength(50),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('email')
         ->label('Email Address/es')
+        ->disableAutocomplete()
         ->email()
         ->required()
         ->hint('Ex. example@email.com')
@@ -86,16 +92,19 @@ class SupplierResource extends Resource
         ->maxLength(50),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('business_permit_number')
         ->label("Business/Mayors's Permit Number")
+        ->disableAutocomplete()
         ->required()
         ->placeholder("Business/Mayors's Permit Number")
         ->maxLength(50),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('tin')
         ->label('Tax Identification Number (TIN)')
+        ->disableAutocomplete()
         ->required()
         ->placeholder('Tax Identification Number (TIN)')
         ->maxLength(50),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('philgeps_registration_number')
         ->label('PhilGEPS Registration Number')
+        ->disableAutocomplete()
         ->required()
         ->placeholder('PhilGEPS Registration Number')
         ->maxLength(50),

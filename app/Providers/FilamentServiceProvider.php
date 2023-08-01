@@ -31,11 +31,7 @@ class FilamentServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        Filament::serving(function () {
-            Filament::registerUserMenuItems([
-                // ...
-                'logout' => UserMenuItem::make()->label('Log out'),
-            ]);});
+
         Filament::registerViteTheme('resources/css/filament.css');
         Filament::serving(function() {
             QuickCreate::excludes([

@@ -60,6 +60,7 @@ class CategoryResource extends Resource
                     ->schema([
                          \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('name')
         ->label('Category Name')
+        ->disableAutocomplete()
         ->required()
         ->hint('Ex. Automotive, Electronics, Grocery, etc.')
         ->placeholder('Category')
