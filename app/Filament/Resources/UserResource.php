@@ -97,10 +97,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')->copyable(),
                 Tables\Columns\TextColumn::make('email')
-                ->sortable(),
-                    TextColumn::make('roles.name')->sortable(),
+                ->sortable()->copyable(),
+                    TextColumn::make('roles.name')->sortable()->copyable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                 ->dateTime('d-M-Y')

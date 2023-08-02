@@ -1,12 +1,10 @@
 <x-filament-breezy::auth-card action="authenticate">
 
-        <div class="w-full flex justify-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/DOST_seal.svg/1200px-DOST_seal.svg.png" style="width:64px;height:64px;">
-        </div>
+
 
 
     <div class="w-full flex justify-center">
-        <img src="https://scontent-mnl1-1.xx.fbcdn.net/v/t39.30808-6/364706014_259341823475862_5277198987590220895_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=730e14&_nc_ohc=fEcfroZ6o00AX9h0EFu&_nc_ht=scontent-mnl1-1.xx&oh=00_AfDxQUan9X6xbqhqhQmf6dBXse58zLIKQ4evCjDDGOOeWQ&oe=64CC0109" >
+        <img src="https://scontent.fmnl25-3.fna.fbcdn.net/v/t39.30808-6/363837890_3508091356079333_2137715103987440528_n.jpg?_nc_cat=106&cb=99be929b-59f725be&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeEEC7bkf2v25w7naoHArw2VIwlFS_BuXYUjCUVL8G5dhcu108gzNWKG7sRyBBFpUOLCJLORujqTxhNVneP04zss&_nc_ohc=IYR6THRDrXUAX8Q9B6R&_nc_ht=scontent.fmnl25-3.fna&oh=00_AfBmqwhcmebopFM-VSppoID03NOvcVuBlifJHkh8-UNkgA&oe=64CEBAA7" >
     </div>
 
     <div>

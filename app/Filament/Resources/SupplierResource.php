@@ -9,7 +9,11 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Tabs;
 use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\Layout\Panel;
@@ -22,6 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SupplierResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
+use App\Filament\Resources\SupplierResource\Widgets\SupplierOverview;
 use App\Filament\Resources\SupplierResource\RelationManagers\TransactionRelationManager;
 
 class SupplierResource extends Resource
@@ -36,30 +41,71 @@ class SupplierResource extends Resource
     {
         return $form
             ->schema([
-
-                Card::make()
-
+Card::make()
+                ->schema([
+                Grid::make(3)
     ->schema([
-        Forms\Components\Select::make('category_id')
-        ->relationship('category', 'name', fn (Builder $query) => $query->where('hidden', 0))
-        ->label('Category Name')
-        ->required()
-        ->preload()
-        ,
-        Fieldset::make('Supplier Information')
-    ->schema([
+        Wizard::make([
+            Wizard\Step::make('Supplier Details')
+            ->icon('bi-paperclip')
+            ->description('Please input supplier details')
+                ->schema([
+                    Grid::make()
+                    ->schema([
+                        Grid::make(2)
+                        ->schema([
+                        \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('supplier_name')
+                        ->label('Supplier Name')
+                        ->disableAutocomplete()
+                        ->autofocus()
+                        ->required()
+                        ->columnSpanFull()
+                        ->placeholder('Supplier Name')
+                        ->maxLength(50),
+                        \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('company_address')
+                        ->label('Company/Address')
+                        ->disableAutocomplete()
+                        ->required()
+                        ->columnSpanFull()
+                        ->placeholder('Company/Address')
+                        ->maxLength(100),
+                            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('business_permit_number')
+                        ->label("Business/Mayors's Permit Number")
+                        ->disableAutocomplete()
+                        ->columnSpanFull()
+                        ->required()
+                        ->placeholder("Business/Mayors's Permit Number")
+                        ->maxLength(50),
+                            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('tin')
+                        ->label('Tax Identification Number (TIN)')
+                        ->disableAutocomplete()
+                        ->required()
+                        ->columnSpanFull()
+                        ->placeholder('Tax Identification Number (TIN)')
+                        ->maxLength(50),
+                            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('philgeps_registration_number')
+                        ->label('PhilGEPS Registration Number')
+                        ->disableAutocomplete()
+                        ->required()
+                        ->columnSpanFull()
+                        ->placeholder('PhilGEPS Registration Number')
+                        ->maxLength(50),
 
-        \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('supplier_name')
-        ->label('Supplier Name')
-        ->disableAutocomplete()
-        ->autofocus()
-        ->required()
-        ->placeholder('Supplier Name')
-        ->maxLength(50),
-            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('representative_name')
+                            ])
+
+                            ])->columnSpan(2)
+                ]),
+            Wizard\Step::make('Contact Details')
+            ->icon('bi-book')
+            ->description('Please input contact details')
+                ->schema([
+                    Grid::make()
+        ->schema([
+        \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('representative_name')
         ->label('Representative Name')
         ->disableAutocomplete()
         ->required()
+        ->columnSpanFull()
         ->hint('Full name, including middle initials.')
         ->placeholder('Representative Name')
         ->maxLength(100),
@@ -67,19 +113,16 @@ class SupplierResource extends Resource
         ->label('Position/Designation')
         ->disableAutocomplete()
         ->required()
+        ->columnSpanFull()
         ->hint('Ex. Manager, Assistant, Owner, etc.')
         ->placeholder('Position/Designation')
         ->maxLength(50),
-            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('company_address')
-        ->label('Company/Address')
-        ->disableAutocomplete()
-        ->required()
-        ->placeholder('Company/Address')
-        ->maxLength(100),
+
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('office_contact')
         ->label('Office Contact No./Fax/Mobile')
         ->disableAutocomplete()
         ->required()
+        ->columnSpanFull()
         ->placeholder('Office Contact No./Fax/Mobile')
         ->maxLength(50),
             \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('email')
@@ -87,32 +130,43 @@ class SupplierResource extends Resource
         ->disableAutocomplete()
         ->email()
         ->required()
+        ->columnSpanFull()
         ->hint('Ex. example@email.com')
         ->placeholder('Email Address/es')
         ->maxLength(50),
-            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('business_permit_number')
-        ->label("Business/Mayors's Permit Number")
-        ->disableAutocomplete()
-        ->required()
-        ->placeholder("Business/Mayors's Permit Number")
-        ->maxLength(50),
-            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('tin')
-        ->label('Tax Identification Number (TIN)')
-        ->disableAutocomplete()
-        ->required()
-        ->placeholder('Tax Identification Number (TIN)')
-        ->maxLength(50),
-            \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('philgeps_registration_number')
-        ->label('PhilGEPS Registration Number')
-        ->disableAutocomplete()
-        ->required()
-        ->placeholder('PhilGEPS Registration Number')
-        ->maxLength(50),
-            ])
-            ->inlineLabel()
+        ]),
+                ]),
+            ])->columnSpan(2)->skippable(),
+
+
+
+
+
+            Section::make('Category')
+            ->description('Select category from the list below.')
+            ->schema([
+                Forms\Components\Select::make('category_id')
+                ->relationship('category', 'name', fn (Builder $query) => $query->where('hidden', 0))
+                ->label('Category Name')
+
+                ->required()
+                ->createOptionForm([
+                    Forms\Components\TextInput::make('name')
+                    ->label('Category Name')
+                    ->disableAutocomplete()
+                    ->required()
+                    ->placeholder('Category Name'),
+
+
+                ])
+                ->preload()
+                ,
+            ])->columnSpan(1),
+
+
     ])
 
-            ]);
+    ])]);
     }
 
     public static function table(Table $table): Table
@@ -137,30 +191,30 @@ class SupplierResource extends Resource
                     ->searchable()
                     ->label('Supplier Name')
                     ->icon('heroicon-o-truck')
-                    ->color('primary')
+                    ->color('primary')->copyable()
                     ->size('lg')
                     ->weight('bold'),
                     Tables\Columns\BadgeColumn::make('category.name')
                     ->icons(['heroicon-o-folder'])
-                    ->label('Category')
+                    ->label('Category')->copyable()
                     ->colors(['secondary'])
                     ->searchable(),
                     Tables\Columns\TextColumn::make('company_address')
                 ->label('Company/Address')
-                ->searchable()
+                ->searchable()->copyable()
                 ->size('sm')
                 ->icon('bi-pin-map-fill')
                 ->color('secondary'),
                 ])->alignment('left')->space(1),
                 Stack::make([
                     Tables\Columns\TextColumn::make('representative_name')
-                ->searchable()
+                ->searchable()->copyable()
                 ->label('Representative')
                 ->color('secondary')
                 ->icon('heroicon-s-user'),
 
             Tables\Columns\TextColumn::make('position_designation')
-                ->searchable()
+                ->searchable()->copyable()
                 ->label('Company/Address')
                 ->size('sm')
                 ->color('secondary')
@@ -168,14 +222,14 @@ class SupplierResource extends Resource
 
 
             Tables\Columns\TextColumn::make('office_contact')
-                ->searchable()
+                ->searchable()->copyable()
                 ->label('Office Contact No./Fax/Mobile')
                 ->icon('bi-telephone-fill')
                 ->color('secondary')
                 ->size('sm'),
 
             Tables\Columns\TextColumn::make('email')
-                ->searchable()
+                ->searchable()->copyable()
                 ->label('Email Address/es')
                 ->icon('bi-envelope-fill')
                 ->color('secondary')
@@ -185,7 +239,7 @@ class SupplierResource extends Resource
                 Stack::make([
                     Tables\Columns\TextColumn::make('transaction_count')
                     ->counts('transaction')
-                    ->label('Transaction Count')
+                    ->label('Transaction Count')->copyable()
                     ->sortable()
                     ->icon('bi-cash-stack')
                     ->size('lg')
@@ -193,8 +247,8 @@ class SupplierResource extends Resource
 
                 Tables\Columns\TextColumn::make('transaction_avg_rating')
 
-                    ->label('Rating')
-                    ->avg('transaction', 'rating')
+                    ->label('Overall Average')
+                    ->avg('transaction', 'rating')->copyable()
                     ->sortable()
                     ->size('lg')
                     ->icon('bi-star-fill')
@@ -293,6 +347,11 @@ class SupplierResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
-
+    public static function getWidgets(): array
+    {
+        return [
+            SupplierOverview::class
+        ];
+    }
 
 }

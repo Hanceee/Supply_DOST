@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Transaction;
 use Laravel\Sanctum\HasApiTokens;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -11,12 +12,12 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Filament\Resources\UserResource;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
-use Symfony\Component\HttpFoundation\Request;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -62,6 +63,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 
 
 }

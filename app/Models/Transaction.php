@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +19,7 @@ class Transaction extends Model
         'date',
         'article_description',
         'price',
+        'user_id',
         'supplier_id',
         'quality_rating',
         'completeness_rating',
@@ -48,6 +50,10 @@ class Transaction extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // Define an accessor to calculate the average rating attribute.
     public function getRatingAttribute()

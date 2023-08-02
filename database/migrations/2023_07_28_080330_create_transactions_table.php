@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('article_description');
             $table->decimal('price', 8, 2);
             $table->foreignId('supplier_id');
+            $table->foreignId('user_id');
             $table->integer('quality_rating');
             $table->integer('completeness_rating');
             $table->integer('conformity_rating');

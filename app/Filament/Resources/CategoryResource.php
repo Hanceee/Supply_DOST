@@ -11,6 +11,7 @@ use Tables\Columns\TextColumn;
 use Filament\Resources\Resource;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Fieldset;
@@ -26,8 +27,8 @@ use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Placeholder;
 
+use Filament\Forms\Components\Placeholder;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -41,6 +42,7 @@ use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Filament\Resources\CategoryResource\Pages\EditCategory;
 use App\Filament\Resources\CategoryResource\Pages\CreateCategory;
 use App\Filament\Resources\CategoryResource\Pages\ListCategories;
+use App\Filament\Resources\CategoryResource\Widgets\CategoryOverview;
 use App\Filament\Resources\CategoryResource\RelationManagers\SupplierRelationManager;
 
 class CategoryResource extends Resource
@@ -55,18 +57,20 @@ class CategoryResource extends Resource
         return $form
 
                 ->schema([
-
+                    Grid::make(3)
+                    ->schema([
                     Card::make()
+                    ->columns(3)
                     ->schema([
                          \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('name')
         ->label('Category Name')
         ->disableAutocomplete()
         ->required()
-        ->hint('Ex. Automotive, Electronics, Grocery, etc.')
         ->placeholder('Category')
         ->maxLength(20)
-                    ])    ->inlineLabel()
-
+        ->columnSpan('full')
+                    ]) ->columnSpan(1)
+                    ])
 
 
 
@@ -81,6 +85,7 @@ class CategoryResource extends Resource
 
             ->columns([
                 Split::make([
+
                     BadgeColumn::make('name')->label('Category Name')->searchable()
                 ->icons([
                     'heroicon-o-folder',
@@ -102,9 +107,9 @@ class CategoryResource extends Resource
                 Panel::make([
                     Stack::make([
                 Tables\Columns\TextColumn::make('created_at')->sortable()
-                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Created at {$state}")),
+                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Created at {$state}"))->copyable(),
                 Tables\Columns\TextColumn::make('updated_at')->sortable()
-                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Updated at {$state}")),
+                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Updated at {$state}"))->copyable(),
                     ]),
                 ])->collapsible(),
 
@@ -168,5 +173,10 @@ class CategoryResource extends Resource
             ]);
     }
 
-
+    public static function getWidgets(): array
+    {
+        return [
+            CategoryOverview::class
+        ];
+    }
 }
