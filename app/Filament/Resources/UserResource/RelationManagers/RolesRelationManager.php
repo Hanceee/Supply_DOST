@@ -34,7 +34,6 @@ class RolesRelationManager extends RelationManager
 
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 }

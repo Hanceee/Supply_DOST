@@ -194,7 +194,7 @@ class TransactionResource extends Resource
                     Tables\Columns\TextColumn::make('supplier.supplier_name')->copyable()->searchable()->label('Supplier')->icon('heroicon-o-truck'),
 
                 Tables\Columns\TextColumn::make('article_description')->copyable()->searchable()->label('Article/Description')->toggleable(isToggledHiddenByDefault: true)->wrap(),
-                Tables\Columns\TextColumn::make('price')->copyable()->searchable()->label('Amount')->money('php')->sortable(),
+                Tables\Columns\TextColumn::make('price')->sortable()->copyable()->searchable()->label('Amount')->money('php')->sortable(),
                 Tables\Columns\TextColumn::make('quality_rating')->copyable()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('completeness_rating')->copyable()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('conformity_rating')->copyable()->searchable()->sortable(),

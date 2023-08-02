@@ -36,6 +36,7 @@ use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager;
+use Filament\Tables\Columns\BadgeColumn;
 
 class UserResource extends Resource
 {
@@ -54,11 +55,13 @@ class UserResource extends Resource
         Forms\Components\TextInput::make('name')
         ->required()
         ->maxLength(255)
+        ->placeholder('Name')
         ->disableAutocomplete()
         ->helperText(' Full name here, including any middle names.'),
         Forms\Components\TextInput::make('email')
         ->email()
         ->required()
+        ->placeholder('Email')
         ->disableAutocomplete()
         ->maxLength(255),
 
@@ -71,22 +74,20 @@ class UserResource extends Resource
         ->default('password')
         ->required()
         ->minLength(8)
-        ->hiddenOn('edit')
-        ->helperText('Default Password is : password'),
-    //     ->dehydrateStateUsing(static fn(null|string $state):
-    //         null|string =>
-    //         filled($state) ? Hash::make($state): null,
-    // )->required(static fn (Page $livewire): string =>
-    //    $livewire instanceof CreateUser,
-    // )->dehydrated(static fn(null|string $state): bool =>
-    //         filled($state),
-    //     )->label(static fn(PAge $livewire): string =>
-    //         ($livewire instanceof EditUser) ? 'New Password' : 'Password'
-    //     ),
+        ->placeholder('Password')
+        ->helperText('Default Password is : password')
+        ->dehydrateStateUsing(static fn(null|string $state):
+            null|string =>
+            filled($state) ? Hash::make($state): null,
+    )->required(static fn (Page $livewire): string =>
+       $livewire instanceof CreateUser,
+    )->dehydrated(static fn(null|string $state): bool =>
+            filled($state),
+        )->label(static fn(PAge $livewire): string =>
+            ($livewire instanceof EditUser) ? 'New Password' : 'Password'
+        ),
     CheckboxList::make('roles')
-        ->relationship('roles', 'name')
-        ->columns(2)
-        ->helperText('Only Choose 1 !')
+        ->relationship('roles', 'name', fn (Builder $query) => $query->where('name', 'admin'))
         ->required(),
     ])->columns(1)
 
@@ -97,10 +98,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->copyable(),
+                BadgeColumn::make('name')->icon('heroicon-o-user')->copyable()->color('warning'),
                 Tables\Columns\TextColumn::make('email')
-                ->sortable()->copyable(),
-                    TextColumn::make('roles.name')->sortable()->copyable(),
+                ->copyable()->icon('bi-envelope-fill'),
+                    TextColumn::make('roles.name')->copyable()->icon('heroicon-s-cog'),
 
                 Tables\Columns\TextColumn::make('created_at')
                 ->dateTime('d-M-Y')

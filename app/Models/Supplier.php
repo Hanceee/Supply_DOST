@@ -32,7 +32,10 @@ class Supplier extends Model
     {
         return $this->hasMany(Transaction::class);
     }
-
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'supplier_id');
+    }
     public function category()
     {
         return $this->belongsTo(Category::class);

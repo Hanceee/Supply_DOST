@@ -13,12 +13,16 @@ class TranscationOverview extends BaseWidget
         return [
             Card::make('Total Transaction', Transaction::count()),
             Card::make('Total Closed', Transaction::where('remarks','Closed')->count()),
-        Card::make('Latest Transaction',Transaction::latest('created_at')->firstOrFail()->supplier->supplier_name),
-        Card::make('Highest Average Rating', function() {
-            $highestRating = Transaction::max('rating');
-            $supplierName = Transaction::where('rating', $highestRating)->latest('created_at')->firstOrFail()->supplier->supplier_name;
-            return $supplierName .  ' '.$highestRating  . '/5' ;
-        }),
+            Card::make('Latest Transaction', function() {
+                $latestTransaction = Transaction::latest('created_at')->first();
+                return $latestTransaction ? $latestTransaction->supplier->supplier_name : '';
+            }),
+
+            Card::make('Highest Average Rating', function() {
+                $highestRating = Transaction::max('rating');
+                $transactionWithHighestRating = Transaction::where('rating', $highestRating)->latest('created_at')->first();
+                return $transactionWithHighestRating ? $highestRating . ': ' . $transactionWithHighestRating->supplier->supplier_name : '';
+            }),
 
 
         ];

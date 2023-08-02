@@ -13,9 +13,10 @@ class CategoryOverview extends BaseWidget
 
         return [
             Card::make('Total Category',Category::count()),
+                    Card::make('Total Visible Category', Category::where('hidden','0')->count()),
+
             Card::make('Latest Category', Category::latest('created_at')->value('name')),
 
-        Card::make('Total Visible Category', Category::where('hidden','0')->count()),
         ];
     }
 }

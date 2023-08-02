@@ -11,6 +11,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestTransaction extends BaseWidget
 {
+    protected static ?int $sort = 2;
     protected int | string | array $columnSpan = 'full';
     protected function getTableQuery(): Builder
     {

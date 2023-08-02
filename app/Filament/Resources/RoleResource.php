@@ -34,16 +34,7 @@ class RoleResource extends Resource
     {
         return $form
             ->schema([
-                Card::make()
-                    ->schema([
-                        TextInput::make('name')
-                        ->unique(ignoreRecord: true)
-                        ->required(),
-                        MultiSelect::make('permissions')
-                            ->relationship('permissions', 'name')
-                            ->preload()
-                            ->required(),
-                    ])
+
             ]);
     }
 
@@ -51,12 +42,11 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('id'),
+                TextColumn::make('name'),
                 TextColumn::make('created_at')
                     ->dateTime('d-M-Y')
-                    ->sortable()
-                    ->searchable(),
+                    ,
             ])
             ->filters([
                 //
@@ -65,14 +55,12 @@ class RoleResource extends Resource
 
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            PermissionsRelationManager::class,
         ];
     }
 
@@ -80,7 +68,6 @@ class RoleResource extends Resource
     {
         return [
             'index' => Pages\ListRoles::route('/'),
-            'create' => Pages\CreateRole::route('/create'),
 
         ];
     }
