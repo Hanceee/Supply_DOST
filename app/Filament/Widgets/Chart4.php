@@ -2,39 +2,51 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Widgets\BubbleChartWidget;
+use Filament\Widgets\BarChartWidget;
 use App\Models\Supplier;
 
-class Chart4 extends BubbleChartWidget
-{    protected static ?int $sort = 2;
-
+class Chart4 extends BarChartWidget
+{
+    protected static ?int $sort = 2;
     protected static ?string $maxHeight = '350px';
-    protected static ?string $heading = 'Supplier Distribution by Category';
+    protected static ?string $heading = 'Top 5 Supplier Ratings';
 
     protected function getData(): array
     {
-        $suppliers = Supplier::with('category')->get();
+        $suppliers = Supplier::with('transactions')
+            ->whereHas('transactions', function ($query) {
+                $query->where('remarks', '!=', 'Cancelled');
+            })
+            ->get();
 
-        $datasets = [];
+        $averageRatings = [];
 
-        $colors = ['#FF5733', '#36A2EB', '#FFCE56', '#FF6384', '#36A2EB', '#FFCE56']; // Add more colors as needed
-
-        foreach ($suppliers as $key => $supplier) {
-            $datasets[] = [
-                'label' => $supplier->supplier_name,
-                'data' => [
-                    [
-                        'x' => $supplier->category->name, // Assuming you have a 'category_name' column in the 'categories' table
-                        'y' => $supplier->id, // Using supplier ID as the y-axis value
-                        'r' => 10, // You can set the bubble size based on any criteria you want
-                    ],
-                ],
-                'backgroundColor' => $colors[$key % count($colors)],
-            ];
+        foreach ($suppliers as $supplier) {
+            $averageRating = $supplier->transactions->avg('rating');
+            $averageRatings[$supplier->supplier_name] = $averageRating;
         }
+
+        arsort($averageRatings);
+
+        // Get the top 5 suppliers and their average ratings
+        $topSuppliers = array_slice($averageRatings, 0, 5, true);
+
+        // Define an array of different colors for each bar
+        $colors = ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#FF9F40'];
+
+        $datasets = [
+            [
+                'label' => 'Average Rating',
+                'data' => array_values($topSuppliers),
+                'backgroundColor' => array_slice($colors, 0, count($topSuppliers)),
+            ],
+        ];
+
+        $labels = array_keys($topSuppliers);
 
         return [
             'datasets' => $datasets,
+            'labels' => $labels,
         ];
     }
 }

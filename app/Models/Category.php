@@ -16,26 +16,9 @@ class Category extends Model
     protected $fillable = ['name', 'hidden'];
 
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::created(function ($category) {
-    //         $count = $category->suppliers()->count();
-    //         $category->supplier_count = $count;
-    //         $category->save();
-    //     });
-
-    //     static::deleted(function ($category) {
-    //         $category->suppliers()->update(['category_id' => null]);
-    //     });
-    // }
-
-
     public function supplier()
     {
         return $this->hasMany(Supplier::class);
-        // return $this->belongsToMany(Supplier::class);
 
 
     }

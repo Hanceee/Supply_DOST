@@ -58,7 +58,7 @@ class Transaction extends Model
     // Define an accessor to calculate the average rating attribute.
     public function getRatingAttribute()
     {
-        return round(($this->quality_rating + $this->completeness_rating + $this->conformity_rating) / 3);
+        return number_format(($this->quality_rating + $this->completeness_rating + $this->conformity_rating) / 3, 2);
     }
 
     // Define an Eloquent event to set the rating attribute before creating or updating the model.
@@ -82,7 +82,7 @@ class Transaction extends Model
     // Calculate the average rating of the three rating fields.
     protected function averageRating()
     {
-        return round(($this->quality_rating + $this->completeness_rating + $this->conformity_rating) / 3);
+        return number_format(($this->quality_rating + $this->completeness_rating + $this->conformity_rating) / 3, 2);
     }
 
     // public function updateSupplierTransactionAvgRating()

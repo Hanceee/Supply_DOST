@@ -18,10 +18,10 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->foreignId('supplier_id');
             $table->foreignId('user_id');
-            $table->integer('quality_rating');
-            $table->integer('completeness_rating');
-            $table->integer('conformity_rating');
-            $table->integer('rating')->default(0);
+            $table->decimal('quality_rating');
+            $table->decimal('completeness_rating');
+            $table->decimal('conformity_rating');
+            $table->decimal('rating')->default(0);
             $table->string('remarks');
             $table->timestamps();
 

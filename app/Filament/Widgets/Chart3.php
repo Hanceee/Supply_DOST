@@ -10,7 +10,7 @@ use App\Models\Transaction;
 class Chart3 extends PieChartWidget
 {    protected static ?int $sort = 2;
 
-    protected static ?string $maxHeight = '350px';
+    protected static ?string $maxHeight = '380px';
     protected static ?string $heading = 'Transaction Distribution by Supplier';
     protected function getData(): array
     {

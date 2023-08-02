@@ -2,8 +2,9 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Widgets\LineChartWidget;
+use Carbon\Carbon;
 use App\Models\Transaction;
+use Filament\Widgets\LineChartWidget;
 
 class Chart2 extends LineChartWidget
 {    protected static ?int $sort = 2;
@@ -24,7 +25,7 @@ class Chart2 extends LineChartWidget
         ];
 
         $labels = $transactions->pluck('date')->map(function ($date) {
-            return $date->format('M d, Y'); // Format the date labels as desired
+            return Carbon::createFromFormat('Y-m-d', $date)->format('M d, Y'); // Format the date labels as desired
         });
         return [
             'datasets' => $datasets,

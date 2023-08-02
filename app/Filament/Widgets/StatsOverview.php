@@ -21,14 +21,16 @@ class StatsOverview extends BaseWidget
         $totalTransactions = Transaction::count();
         $averageTransactionAmount = ($totalTransactions > 0) ? $totalExpenses / $totalTransactions : 0;
         $mostExpensiveSupplier = Supplier::withMax('transactions', 'price')->first();
+        $highRatedSuppliersCount = Transaction::where('rating', '>=', 4.0)->count();
+
 
         return [
-            Card::make('Total Expenses', '$' . number_format($totalExpenses, 2))
+            Card::make('Total Expenses', '₱' . number_format($totalExpenses, 2))
             ->description('Total expenses incurred')
             ->descriptionIcon('bi-cash')
             ->chart($chartData->toArray())
             ->color('primary'),
-            Card::make('Average Transaction Amount', '$' . number_format($averageTransactionAmount, 2))
+            Card::make('Average Transaction Amount', '₱' . number_format($averageTransactionAmount, 2))
             ->description('Average transaction amount')
                 ->descriptionIcon('bi-pie-chart')
                 ->chart($chartData->toArray())
@@ -37,12 +39,18 @@ class StatsOverview extends BaseWidget
                 ->description('Supplier with the highest expenses')
                 ->descriptionIcon('bi-shop')
                 ->chart($chartData->toArray())
+                ->color('danger'),
+                Card::make('Total Suppliers with High Ratings', $highRatedSuppliersCount)
+                ->description('Supplier with the highest ratings (4.0 or above)')
+                ->descriptionIcon('bi-star')
+                ->chart($chartData->toArray())
                 ->color('warning'),
+
             Card::make('Total Transactions this Year', Transaction::whereYear('date', now()->year)->count())
             ->description('Total transactions this year')
             ->descriptionIcon('bi-calendar')
             ->chart($chartData->toArray())
-            ->color('danger'),
+            ->color('secondary'),
             Card::make('Total Transactions this Month', Transaction::whereMonth('date', now()->month)->count())
             ->description('Total transactions this month')
                 ->descriptionIcon('bi-calendar-check')

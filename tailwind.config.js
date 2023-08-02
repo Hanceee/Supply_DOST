@@ -24,6 +24,7 @@ module.exports = {
                 primary: colors.cyan,
                 success: colors.green,
                 warning: colors.yellow,
+                random: colors.fuchsia,
 
             },
         },

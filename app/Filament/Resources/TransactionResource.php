@@ -107,33 +107,46 @@ class TransactionResource extends Resource
                         ->schema([
                             Forms\Components\TextInput::make('quality_rating')
                             ->required()
-                            ->numeric()
                             ->columnSpan(2)
-                            ->minValue(0)
                             ->disableAutocomplete()
-                            ->maxValue(5)
-                            ->label('Quality ')
-                            ->placeholder('Quality Rating'),
+                            ->label('Conformity Rating')
+                            ->placeholder('Quality Rating')
+                             ->mask(fn (Mask $mask) => $mask
+        ->numeric()
+        ->decimalPlaces(4) // Set the number of digits after the decimal point.
+        ->decimalSeparator('.') // Add a separator for decimal numbers.
+        ->minValue(0.1) // Set the minimum value that the number can be.
+        ->maxValue(5) // Set the maximum value that the number can be.
+    ),
 
                         Forms\Components\TextInput::make('completeness_rating')
-                            ->required()
-                            ->numeric()
-                            ->columnSpan(2)
-                            ->minValue(0)
-                            ->disableAutocomplete()
-                            ->maxValue(5)
-                            ->label('Completeness Rating')
-                            ->placeholder('Completeness Rating'),
+                        ->required()
+                        ->columnSpan(2)
+                        ->disableAutocomplete()
+                        ->label('Conformity Rating')
+                        ->placeholder('Completeness Rating')
+                         ->mask(fn (Mask $mask) => $mask
+    ->numeric()
+    ->decimalPlaces(4) // Set the number of digits after the decimal point.
+    ->decimalSeparator('.') // Add a separator for decimal numbers.
+    ->minValue(0.1) // Set the minimum value that the number can be.
+    ->maxValue(5) // Set the maximum value that the number can be.
+),
 
                         Forms\Components\TextInput::make('conformity_rating')
                             ->required()
-                            ->numeric()
-                            ->minValue(0)
                             ->columnSpan(2)
-                            ->maxValue(5)
                             ->disableAutocomplete()
                             ->label('Conformity Rating')
-                            ->placeholder('Conformity Rating'),
+                            ->placeholder('Conformity Rating')
+                             ->mask(fn (Mask $mask) => $mask
+        ->numeric()
+        ->decimalPlaces(4) // Set the number of digits after the decimal point.
+        ->decimalSeparator('.') // Add a separator for decimal numbers.
+        ->minValue(0.1) // Set the minimum value that the number can be.
+        ->maxValue(5) // Set the maximum value that the number can be.
+
+    ),
                         ]),
 
                     ])->skippable(),
