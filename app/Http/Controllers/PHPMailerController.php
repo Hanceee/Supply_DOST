@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class MailerController extends Controller
+class PHPMailerController extends Controller
 {
     // =============== [ Email ] ===================
     public function email()

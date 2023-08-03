@@ -22,7 +22,9 @@ class LatestTransaction extends BaseWidget
     {
         return [
             Tables\Columns\TextColumn::make('date')
-            ->sortable()->date()->icon('bi-calendar3')->copyable()->searchable(),
+            ->sortable()->date()
+            ->icon('heroicon-s-calendar')
+            ->copyable()->searchable(),
                 Tables\Columns\TextColumn::make('supplier.supplier_name')->copyable()->searchable()->label('Supplier')->icon('heroicon-o-truck'),
 
             Tables\Columns\TextColumn::make('article_description')->copyable()->searchable()->label('Article/Description')->toggleable(isToggledHiddenByDefault: true)->wrap(),
@@ -30,7 +32,9 @@ class LatestTransaction extends BaseWidget
             Tables\Columns\TextColumn::make('quality_rating')->copyable()->searchable()->sortable(),
             Tables\Columns\TextColumn::make('completeness_rating')->copyable()->searchable()->sortable(),
             Tables\Columns\TextColumn::make('conformity_rating')->copyable()->searchable()->sortable(),
-            TextColumn::make('rating')->copyable()->label('Average Rating')->searchable()->icon('bi-star-fill')->color('warning')->sortable(),
+            TextColumn::make('rating')->copyable()->label('Average Rating')->searchable()
+            ->icon('heroicon-s-star')
+            ->color('warning')->sortable(),
             Tables\Columns\BadgeColumn::make('remarks')->searchable()
             ->colors([
                 'primary',
@@ -40,9 +44,9 @@ class LatestTransaction extends BaseWidget
             ])
 
             ->icons([
-                'clarity-success-standard-solid' => 'Closed',
-                'clarity-times-circle-solid' => 'Cancelled',
-                'clarity-contract-solid' => 'Processing',
+                'heroicon-o-check' => 'Closed',
+                    'heroicon-o-x-circle' => 'Cancelled',
+                    'heroicon-o-document' => 'Processing',
             ])
             ,
             Tables\Columns\TextColumn::make('user.name')->searchable()->copyable()->icon('heroicon-o-users')->label('End User')->toggleable(isToggledHiddenByDefault: true),

@@ -62,12 +62,11 @@ class CategoryResource extends Resource
                     Card::make()
                     ->columns(3)
                     ->schema([
-                         \Wiebenieuwenhuis\FilamentCharCounter\TextInput::make('name')
+                        TextInput::make('name')
         ->label('Category Name')
         ->disableAutocomplete()
         ->required()
         ->placeholder('Category')
-        ->maxLength(20)
         ->columnSpan('full')
                     ]) ->columnSpan(1)
                     ])
@@ -84,7 +83,6 @@ class CategoryResource extends Resource
         return $table
 
             ->columns([
-                Split::make([
 
                     BadgeColumn::make('name')->label('Category Name')->searchable()
                 ->icons([
@@ -100,18 +98,18 @@ class CategoryResource extends Resource
                 ->alignCenter()
                 ->onColor('secondary')
                 ->offColor('warning')
-                ->onIcon('bi-eye-slash-fill')
-                ->offIcon('bi-eye-fill')
+                ->onIcon('heroicon-s-eye')
+                ->offIcon('heroicon-o-eye')
                 ,
-                ]),
-                Panel::make([
-                    Stack::make([
+
+
+
                 Tables\Columns\TextColumn::make('created_at')->sortable()
-                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Created at {$state}"))->copyable(),
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true)->copyable(),
                 Tables\Columns\TextColumn::make('updated_at')->sortable()
-                    ->dateTime()->formatStateUsing(fn (string $state): string => __("Updated at {$state}"))->copyable(),
-                    ]),
-                ])->collapsible(),
+                    ->dateTime()->toggleable(isToggledHiddenByDefault: true)->copyable(),
+
+
 
 
 

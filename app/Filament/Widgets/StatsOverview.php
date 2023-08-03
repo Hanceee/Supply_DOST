@@ -27,33 +27,33 @@ class StatsOverview extends BaseWidget
         return [
             Card::make('Total Expenses', '₱' . number_format($totalExpenses, 2))
             ->description('Total expenses incurred')
-            ->descriptionIcon('bi-cash')
+            ->descriptionIcon('heroicon-o-currency-dollar')
             ->chart($chartData->toArray())
             ->color('primary'),
             Card::make('Average Transaction Amount', '₱' . number_format($averageTransactionAmount, 2))
             ->description('Average transaction amount')
-                ->descriptionIcon('bi-pie-chart')
+                ->descriptionIcon('heroicon-o-chart-pie')
                 ->chart($chartData->toArray())
                 ->color('success'),
                 Card::make('Most Expensive Supplier', $mostExpensiveSupplier->supplier_name ?? 'N/A')
                 ->description('Supplier with the highest expenses')
-                ->descriptionIcon('bi-shop')
+                ->descriptionIcon('heroicon-o-currency-dollar')
                 ->chart($chartData->toArray())
                 ->color('danger'),
                 Card::make('Total Suppliers with High Ratings', $highRatedSuppliersCount)
                 ->description('Supplier with the highest ratings (4.0 or above)')
-                ->descriptionIcon('bi-star')
+                ->descriptionIcon('heroicon-s-star')
                 ->chart($chartData->toArray())
                 ->color('warning'),
 
             Card::make('Total Transactions this Year', Transaction::whereYear('date', now()->year)->count())
             ->description('Total transactions this year')
-            ->descriptionIcon('bi-calendar')
+            ->descriptionIcon('heroicon-s-calendar')
             ->chart($chartData->toArray())
             ->color('secondary'),
             Card::make('Total Transactions this Month', Transaction::whereMonth('date', now()->month)->count())
             ->description('Total transactions this month')
-                ->descriptionIcon('bi-calendar-check')
+                ->descriptionIcon('heroicon-s-calendar')
                 ->chart($chartData->toArray())
                 ->color('secondary'),
         ];

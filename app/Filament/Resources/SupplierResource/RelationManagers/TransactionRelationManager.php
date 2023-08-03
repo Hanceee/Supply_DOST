@@ -34,7 +34,9 @@ class TransactionRelationManager extends RelationManager
 
                 ->columns([
                     Tables\Columns\TextColumn::make('date')
-                    ->sortable()->date()->icon('bi-calendar3')->searchable(),
+                    ->sortable()->date()
+                    ->icon('heroicon-s-calendar')
+                    ->searchable(),
                         Tables\Columns\TextColumn::make('supplier.supplier_name')->searchable()->label('Supplier')->icon('heroicon-o-truck'),
 
                     Tables\Columns\TextColumn::make('article_description')->searchable()->label('Article/Description')->toggleable(isToggledHiddenByDefault: true)->wrap(),
@@ -42,7 +44,9 @@ class TransactionRelationManager extends RelationManager
                     Tables\Columns\TextColumn::make('quality_rating')->searchable()->sortable(),
                     Tables\Columns\TextColumn::make('completeness_rating')->searchable()->sortable(),
                     Tables\Columns\TextColumn::make('conformity_rating')->searchable()->sortable(),
-                    TextColumn::make('rating')->label('Average Rating')->searchable()->icon('bi-star-fill')->color('warning')->sortable(),
+                    TextColumn::make('rating')->label('Average Rating')->searchable()
+                    ->icon('heroicon-s-star')
+                    ->color('warning')->sortable(),
                     Tables\Columns\BadgeColumn::make('remarks')->searchable()
                     ->colors([
                         'primary',
@@ -52,9 +56,9 @@ class TransactionRelationManager extends RelationManager
                     ])
 
                     ->icons([
-                        'clarity-success-standard-solid' => 'Closed',
-                        'clarity-times-circle-solid' => 'Cancelled',
-                        'clarity-contract-solid' => 'Processing',
+                      'heroicon-o-check' => 'Closed',
+                    'heroicon-o-x-circle' => 'Cancelled',
+                    'heroicon-o-document' => 'Processing',
                     ])
                     ,
                     Tables\Columns\TextColumn::make('user.name')->searchable()->icon('heroicon-o-users')->label('End User')->toggleable(isToggledHiddenByDefault: true),

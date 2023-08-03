@@ -10,7 +10,7 @@ module.exports = {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
-        "./vendor/suleymanozev/**/*.blade.php", // Add this line
+        // "./vendor/suleymanozev/**/*.blade.php", // Add this line
     ],
     darkMode: 'class',
     theme: {

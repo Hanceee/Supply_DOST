@@ -61,7 +61,7 @@ class TransactionResource extends Resource
 
                 Wizard::make([
                     Wizard\Step::make('Details')
-                        ->icon('bi-currency-dollar')
+                        ->icon('heroicon-o-currency-dollar')
                         ->description('Please enter transaction details.')
                         ->columns(2)
                         ->schema([
@@ -102,7 +102,7 @@ class TransactionResource extends Resource
                         ]),
                     Wizard\Step::make('Rating')
                         ->columns(3)
-                        ->icon('bi-star')
+                        ->icon('heroicon-s-star')
                         ->description('Please rate transaction 0.1-5.')
                         ->schema([
                             Forms\Components\TextInput::make('quality_rating')
@@ -203,7 +203,9 @@ class TransactionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('date')
-                ->sortable()->date()->icon('bi-calendar3')->copyable()->searchable(),
+                ->sortable()->date()
+                ->icon('heroicon-s-calendar')
+                ->copyable()->searchable(),
                     Tables\Columns\TextColumn::make('supplier.supplier_name')->copyable()->searchable()->label('Supplier')->icon('heroicon-o-truck'),
 
                 Tables\Columns\TextColumn::make('article_description')->copyable()->searchable()->label('Article/Description')->toggleable(isToggledHiddenByDefault: true)->wrap(),
@@ -211,7 +213,9 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('quality_rating')->copyable()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('completeness_rating')->copyable()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('conformity_rating')->copyable()->searchable()->sortable(),
-                TextColumn::make('rating')->copyable()->label('Average Rating')->searchable()->icon('bi-star-fill')->color('warning')->sortable(),
+                TextColumn::make('rating')->copyable()->label('Average Rating')->searchable()
+                ->icon('heroicon-s-star')
+                ->color('warning')->sortable(),
                 Tables\Columns\BadgeColumn::make('remarks')->searchable()
                 ->colors([
                     'primary',
@@ -221,9 +225,9 @@ class TransactionResource extends Resource
                 ])
 
                 ->icons([
-                    'clarity-success-standard-solid' => 'Closed',
-                    'clarity-times-circle-solid' => 'Cancelled',
-                    'clarity-contract-solid' => 'Processing',
+                    'heroicon-o-check' => 'Closed',
+                    'heroicon-o-x-circle' => 'Cancelled',
+                    'heroicon-o-document' => 'Processing',
                 ])
                 ,
                 Tables\Columns\TextColumn::make('user.name')->searchable()->copyable()->icon('heroicon-o-users')->label('End User')->toggleable(isToggledHiddenByDefault: true),

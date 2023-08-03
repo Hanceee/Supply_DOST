@@ -47,7 +47,7 @@ Card::make()
     ->schema([
         Wizard::make([
             Wizard\Step::make('Supplier Details')
-            ->icon('bi-paperclip')
+            ->icon('heroicon-o-paper-clip')
             ->description('Please input supplier details')
                 ->schema([
                     Grid::make()
@@ -96,7 +96,7 @@ Card::make()
                             ])->columnSpan(2)
                 ]),
             Wizard\Step::make('Contact Details')
-            ->icon('bi-book')
+            ->icon('heroicon-s-phone')
             ->description('Please input contact details')
                 ->schema([
                     Grid::make()
@@ -203,7 +203,7 @@ Card::make()
                 ->label('Company/Address')
                 ->searchable()->copyable()
                 ->size('sm')
-                ->icon('bi-pin-map-fill')
+                ->icon('heroicon-s-globe')
                 ->color('secondary'),
                 ])->alignment('left')->space(1),
                 Stack::make([
@@ -224,14 +224,14 @@ Card::make()
             Tables\Columns\TextColumn::make('office_contact')
                 ->searchable()->copyable()
                 ->label('Office Contact No./Fax/Mobile')
-                ->icon('bi-telephone-fill')
+                ->icon('heroicon-s-phone')
                 ->color('secondary')
                 ->size('sm'),
 
             Tables\Columns\TextColumn::make('email')
                 ->searchable()->copyable()
                 ->label('Email Address/es')
-                ->icon('bi-envelope-fill')
+                ->icon('heroicon-s-at-symbol')
                 ->color('secondary')
                 ->size('sm'),
                 ])->space(1)->alignment('center'),
@@ -241,7 +241,7 @@ Card::make()
                     ->counts('transaction')
                     ->label('Transaction Count')->copyable()
                     ->sortable()
-                    ->icon('bi-cash-stack')
+                    ->icon('heroicon-o-currency-dollar')
                     ->size('lg')
                     ->color('success'),
 
@@ -251,7 +251,7 @@ Card::make()
                     ->avg('transaction', 'rating')->copyable()
                     ->sortable()
                     ->size('lg')
-                    ->icon('bi-star-fill')
+                    ->icon('heroicon-s-star')
                     ->color('warning'),
                 ])->alignment('right')->space(3),
 

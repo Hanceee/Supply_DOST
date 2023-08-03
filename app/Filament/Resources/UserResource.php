@@ -100,7 +100,10 @@ class UserResource extends Resource
             ->columns([
                 BadgeColumn::make('name')->icon('heroicon-o-user')->copyable()->color('warning'),
                 Tables\Columns\TextColumn::make('email')
-                ->copyable()->icon('bi-envelope-fill'),
+                ->copyable()
+                ->icon('heroicon-s-at-symbol')
+                ,
+
                     TextColumn::make('roles.name')->copyable()->icon('heroicon-s-cog'),
 
                 Tables\Columns\TextColumn::make('created_at')

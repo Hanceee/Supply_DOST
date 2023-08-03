@@ -83,7 +83,7 @@ return [
         'dad-jokes' => true,
         'chuck-jokes' => false,
     ],
-    'cache' => '5', //seconds
+    'cache' => false, //seconds
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +152,7 @@ return [
         'path' => app_path('Filament/Widgets'),
         'register' => [
             \Awcodes\Overlook\Overlook::class,
-           Widgets\AccountWidget::class,
+        //    Widgets\AccountWidget::class,
         //    Widgets\FilamentInfoWidget::class,
         //    \FilamentVersions\FilamentVersionsWidget::class,
 
@@ -282,7 +282,7 @@ return [
     |
     */
 
-    'favicon' => null,
+    'favicon' => '/logo.png',
 
     /*
     |--------------------------------------------------------------------------
