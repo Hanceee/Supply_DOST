@@ -9,7 +9,7 @@ class Chart4 extends BarChartWidget
 {
     protected static ?int $sort = 2;
     protected static ?string $maxHeight = '350px';
-    protected static ?string $heading = 'Top 5 Supplier Ratings';
+    protected static ?string $heading = 'Top 5 Suppliers';
 
     protected function getData(): array
     {

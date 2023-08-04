@@ -9,7 +9,7 @@ use Filament\Widgets\LineChartWidget;
 class Chart2 extends LineChartWidget
 {    protected static ?int $sort = 2;
 
-    protected static ?string $heading = 'Transaction Trends';
+    protected static ?string $heading = 'Expenses Over Time';
     protected static ?string $maxHeight = '350px';
     protected function getData(): array
     {
@@ -17,7 +17,7 @@ class Chart2 extends LineChartWidget
 
         $datasets = [
             [
-                'label' => 'Transactions',
+                'label' => 'Expenses',
                 'data' => $transactions->pluck('price'), // Assuming you want to plot the price of transactions over time
                 'borderColor' => 'rgba(255, 99, 132, 1)', // Set the line color
                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)', // Set the fill color
