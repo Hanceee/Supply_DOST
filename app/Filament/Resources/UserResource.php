@@ -105,11 +105,13 @@ class UserResource extends Resource
                 ,
 
                     TextColumn::make('roles.name')->copyable()->icon('heroicon-s-cog'),
+                    TextColumn::make('transaction_count')->label('Transaction Added')->sortable()->counts('transaction')->icon('heroicon-o-currency-dollar'),
 
-                Tables\Columns\TextColumn::make('created_at')
-                ->dateTime('d-M-Y')
-                ->sortable()
-                ,
+              Tables\Columns\TextColumn::make('created_at')
+                ->searchable()->dateTime()->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                ->searchable()->dateTime()->sortable(),
+
 
             ])
             ->filters([

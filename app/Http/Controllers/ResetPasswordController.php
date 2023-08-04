@@ -18,6 +18,6 @@ class ResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
-        return redirect('/', '/admin')->with('status', trans($response));
+        return redirect('http://127.0.0.1:8000/admin/login')->with('status', trans($response));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\RoleResource;
+use App\Filament\Resources\ServerEmailResource;
 use Z3d0X\FilamentLogger\Resources\ActivityResource;
 
 return [
@@ -10,6 +11,7 @@ return [
     'excludes' => [
          ActivityResource::class,
          RoleResource::class,
+         ServerEmailResource::class
 
     ],
 

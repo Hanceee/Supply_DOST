@@ -2,16 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\ServerEmail;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Vite;
-use Filament\Navigation\UserMenuItem;
 
+use Filament\Navigation\UserMenuItem;
 use Spatie\Permission\Contracts\Role;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\RoleResource;
 use App\Filament\Resources\UserResource;
 use FilamentQuickCreate\Facades\QuickCreate;
 use App\Filament\Resources\PermissionResource;
+use App\Filament\Resources\ServerEmailResource;
 use Z3d0X\FilamentLogger\Resources\ActivityResource;
 
 class FilamentServiceProvider extends ServiceProvider
@@ -37,9 +39,12 @@ class FilamentServiceProvider extends ServiceProvider
             QuickCreate::excludes([
                 \App\Filament\Resources\RoleResource::class,
                 ActivityResource::class,
+                ServerEmailResource::class
 
             ]);
-        });        Filament::serving(function () {
+        });
+
+        Filament::serving(function () {
             $user = auth()->user();
 
             if ($user && $user->is_admin === 1 && $user->hasAnyRole(['super-admin'])) {

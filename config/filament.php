@@ -79,11 +79,11 @@ return [
 
 
 
-    'services' => [
-        'dad-jokes' => true,
-        'chuck-jokes' => false,
-    ],
-    'cache' => false, //seconds
+    // 'services' => [
+    //     'dad-jokes' => true,
+    //     'chuck-jokes' => false,
+    // ],
+    // 'cache' => false, //seconds
 
     /*
     |--------------------------------------------------------------------------
@@ -151,8 +151,9 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
+            Widgets\AccountWidget::class,
+
             \Awcodes\Overlook\Overlook::class,
-        //    Widgets\AccountWidget::class,
         //    Widgets\FilamentInfoWidget::class,
         //    \FilamentVersions\FilamentVersionsWidget::class,
 

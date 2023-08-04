@@ -4,9 +4,11 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\ServerEmail;
 use App\Policies\PermissionPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\ActivityPolicy;
+use App\Policies\ServerEmailPolicy;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -25,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Activity::class => ActivityPolicy::class,
         Permission::class => PermissionPolicy::class,
+        ServerEmail::class => ServerEmailPolicy::class,
         Role::class => RolePolicy::class
     ];
 
