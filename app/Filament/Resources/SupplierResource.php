@@ -15,6 +15,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Fieldset;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SupplierResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
+use App\Filament\Resources\SupplierResource\Widgets\SupplierChart1;
+use App\Filament\Resources\SupplierResource\Widgets\SupplierChart2;
 use App\Filament\Resources\SupplierResource\Widgets\SupplierOverview;
 use App\Filament\Resources\SupplierResource\RelationManagers\TransactionRelationManager;
 
@@ -245,11 +248,12 @@ Card::make()
                     ->size('lg')
                     ->color('success'),
 
-                Tables\Columns\TextColumn::make('transaction_avg_rating')
-
+                    TextColumn::make('transaction_avg_rating')
                     ->label('Overall Average')
-                    ->avg('transaction', 'rating')->copyable()
-                    ->sortable()
+                    ->default(function ($record) {
+                        return number_format($record->transaction_avg_rating, 1); // Format the average rating with 1 decimal point
+                    })
+                    ->copyable()
                     ->size('lg')
                     ->icon('heroicon-s-star')
                     ->color('warning'),
@@ -350,7 +354,9 @@ Card::make()
     public static function getWidgets(): array
     {
         return [
-            SupplierOverview::class
+            SupplierOverview::class,
+            SupplierChart1::class,
+            SupplierChart2::class
         ];
     }
 

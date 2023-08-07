@@ -14,6 +14,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Tables\Filters\Filter;
 
 use Filament\Forms\Components\Radio;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
@@ -39,9 +40,12 @@ use Suleymanozev\FilamentRadioButtonField\Forms\Components\RadioButton;
 use App\Filament\Resources\CategoryResource\Widgets\TransactionOverview;
 use App\Filament\Resources\TransactionResource\Widgets\TranscationOverview;
 use App\Filament\Resources\TransactionResource\RelationManagers\SupplierRelationManager;
+use App\Filament\Resources\TransactionResource\Widgets\TransactionChart1;
+use App\Filament\Resources\TransactionResource\Widgets\TransactionChart2;
 
 class TransactionResource extends Resource
 {
+
     protected static ?string $model = Transaction::class;
     protected static ?string $navigationGroup = 'Supplier Management';
 
@@ -49,6 +53,8 @@ class TransactionResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $user = Auth::user();
+
         return $form
         ->schema([
             Grid::make(3)
@@ -109,7 +115,7 @@ class TransactionResource extends Resource
                             ->required()
                             ->columnSpan(2)
                             ->disableAutocomplete()
-                            ->label('Conformity Rating')
+                            ->label('Quality Rating')
                             ->placeholder('Quality Rating')
                              ->mask(fn (Mask $mask) => $mask
         ->numeric()
@@ -123,7 +129,7 @@ class TransactionResource extends Resource
                         ->required()
                         ->columnSpan(2)
                         ->disableAutocomplete()
-                        ->label('Conformity Rating')
+                        ->label('Completeness Rating')
                         ->placeholder('Completeness Rating')
                          ->mask(fn (Mask $mask) => $mask
     ->numeric()
@@ -209,14 +215,23 @@ class TransactionResource extends Resource
                     Tables\Columns\TextColumn::make('supplier.supplier_name')->copyable()->searchable()->label('Supplier')->icon('heroicon-o-truck'),
 
                 Tables\Columns\TextColumn::make('article_description')->copyable()->searchable()->label('Article/Description')->toggleable(isToggledHiddenByDefault: true)->wrap(),
-                Tables\Columns\TextColumn::make('price')->sortable()->copyable()->searchable()->label('Amount')->money('php')->sortable(),
+                Tables\Columns\TextColumn::make('price')
+                ->formatStateUsing(function (string $state): string {
+                    // Convert the state (which should be a number) to a money format
+                    $moneyFormat = number_format((float) $state, 2, '.', ',');
+
+                    // Add the currency sign to the formatted number
+                    return '₱' . $moneyFormat;
+                })
+
+                ->copyable()->searchable()->label('Amount')->color('success')->sortable(),
                 Tables\Columns\TextColumn::make('quality_rating')->copyable()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('completeness_rating')->copyable()->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('conformity_rating')->copyable()->searchable()->sortable(),
                 TextColumn::make('rating')->copyable()->label('Average Rating')->searchable()
                 ->icon('heroicon-s-star')
                 ->color('warning')->sortable(),
-                Tables\Columns\BadgeColumn::make('remarks')->searchable()
+                Tables\Columns\BadgeColumn::make('remarks')->searchable()->sortable()
                 ->colors([
                     'primary',
                     'secondary' => 'Processing',
@@ -300,7 +315,9 @@ class TransactionResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            TranscationOverview::class
+            TranscationOverview::class,
+            TransactionChart1::class,
+            TransactionChart2::class
         ];
     }
 

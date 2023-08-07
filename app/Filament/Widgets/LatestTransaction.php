@@ -22,20 +22,29 @@ class LatestTransaction extends BaseWidget
     {
         return [
             Tables\Columns\TextColumn::make('date')
-            ->sortable()->date()
+            ->date()
             ->icon('heroicon-s-calendar')
-            ->copyable()->searchable(),
-                Tables\Columns\TextColumn::make('supplier.supplier_name')->copyable()->searchable()->label('Supplier')->icon('heroicon-o-truck'),
+            ->copyable(),
+                Tables\Columns\TextColumn::make('supplier.supplier_name')->copyable()->label('Supplier')->icon('heroicon-o-truck'),
 
-            Tables\Columns\TextColumn::make('article_description')->copyable()->searchable()->label('Article/Description')->toggleable(isToggledHiddenByDefault: true)->wrap(),
-            Tables\Columns\TextColumn::make('price')->copyable()->searchable()->label('Amount')->money('php')->sortable(),
-            Tables\Columns\TextColumn::make('quality_rating')->copyable()->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('completeness_rating')->copyable()->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('conformity_rating')->copyable()->searchable()->sortable(),
-            TextColumn::make('rating')->copyable()->label('Average Rating')->searchable()
+            Tables\Columns\TextColumn::make('article_description')->copyable()->label('Article/Description')->toggleable(isToggledHiddenByDefault: true)->wrap(),
+            Tables\Columns\TextColumn::make('price')
+            ->formatStateUsing(function (string $state): string {
+                // Convert the state (which should be a number) to a money format
+                $moneyFormat = number_format((float) $state, 2, '.', ',');
+
+                // Add the currency sign to the formatted number
+                return '₱' . $moneyFormat;
+            })
+
+            ->copyable()->label('Amount')->color('success'),
+            Tables\Columns\TextColumn::make('quality_rating')->copyable(),
+            Tables\Columns\TextColumn::make('completeness_rating')->copyable(),
+            Tables\Columns\TextColumn::make('conformity_rating')->copyable(),
+            TextColumn::make('rating')->copyable()->label('Average Rating')
             ->icon('heroicon-s-star')
-            ->color('warning')->sortable(),
-            Tables\Columns\BadgeColumn::make('remarks')->searchable()
+            ->color('warning'),
+            Tables\Columns\BadgeColumn::make('remarks')
             ->colors([
                 'primary',
                 'secondary' => 'Processing',
@@ -45,15 +54,15 @@ class LatestTransaction extends BaseWidget
 
             ->icons([
                 'heroicon-o-check' => 'Closed',
-                    'heroicon-o-x-circle' => 'Cancelled',
-                    'heroicon-o-document' => 'Processing',
+                'heroicon-o-x-circle' => 'Cancelled',
+                'heroicon-o-document' => 'Processing',
             ])
             ,
-            Tables\Columns\TextColumn::make('user.name')->searchable()->copyable()->icon('heroicon-o-users')->label('End User')->toggleable(isToggledHiddenByDefault: true),
+            Tables\Columns\TextColumn::make('user.name')->copyable()->icon('heroicon-o-users')->label('End User')->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('created_at')
-            ->searchable()->dateTime()->toggleable(isToggledHiddenByDefault: true)->sortable(),
+            ->dateTime()->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('updated_at')
-            ->searchable()->dateTime()->toggleable(isToggledHiddenByDefault: true)->sortable(),
+           ->dateTime()->toggleable(isToggledHiddenByDefault: true),
         ];
     }
 

@@ -41,6 +41,11 @@ class Supplier extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function getTransactionAvgRatingAttribute()
+    {
+        return $this->transactions()->where('remarks', '!=', 'Cancelled')->avg('rating');
+    }
+
     // // Define an Eloquent event to update the transaction_avg_rating attribute before creating or updating the model.
     // protected static function booted()
     // {

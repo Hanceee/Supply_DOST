@@ -14,7 +14,6 @@
         "bacon/bacon-qr-code": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "blade-ui-kit/blade-heroicons": "^1.4",
-        "cms-multi/filament-clear-cache": "^1.0",
         "dasprid/enum": "^1.0",
         "devaslanphp/filament-avatar": "^1.0",
         "doctrine/collections": "^2.1",

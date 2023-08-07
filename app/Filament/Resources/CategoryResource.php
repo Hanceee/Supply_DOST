@@ -44,6 +44,8 @@ use App\Filament\Resources\CategoryResource\Pages\CreateCategory;
 use App\Filament\Resources\CategoryResource\Pages\ListCategories;
 use App\Filament\Resources\CategoryResource\Widgets\CategoryOverview;
 use App\Filament\Resources\CategoryResource\RelationManagers\SupplierRelationManager;
+use App\Filament\Resources\CategoryResource\Widgets\categorychart;
+use App\Filament\Resources\CategoryResource\Widgets\categorychart2;
 
 class CategoryResource extends Resource
 {
@@ -174,7 +176,10 @@ class CategoryResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            CategoryOverview::class
+            CategoryOverview::class,
+            categorychart::class,
+            categorychart2::class
+
         ];
     }
 }

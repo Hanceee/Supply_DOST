@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\SupplierResource\Pages;
 
 use App\Filament\Resources\SupplierResource;
+use App\Filament\Resources\SupplierResource\Widgets\SupplierChart1;
+use App\Filament\Resources\SupplierResource\Widgets\SupplierChart2;
 use App\Filament\Resources\SupplierResource\Widgets\SupplierOverview;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -20,7 +22,12 @@ class ListSuppliers extends ListRecords
     protected function getHeaderWidgets(): array
 {
     return [
-        SupplierOverview::class
+        SupplierOverview::class,
+        SupplierChart1::class,
+        SupplierChart2::class
     ];
 }
 }
+
+
+

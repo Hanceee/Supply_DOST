@@ -14,7 +14,13 @@ class Chart3 extends PieChartWidget
     protected static ?string $heading = 'Transaction Distribution by Supplier';
     protected function getData(): array
     {
-        $suppliers = Supplier::withCount('transactions')->get();
+        $suppliers = Supplier::whereHas('transactions', function ($query) {
+            $query->where('remarks', '!=', 'Cancelled');
+        })
+        ->withCount(['transactions' => function ($query) {
+            $query->where('remarks', '!=', 'Cancelled');
+        }])
+        ->get();
 
         $datasets = [
             [
